@@ -4,13 +4,60 @@ import { revalidatePath } from 'next/cache';
 import { auth } from '@/config/auth';
 import { db } from '@/config/db';
 import { getDocumentFileName } from '@/shared/utils/document-file';
+import { deleteS3ObjectByKey } from '@/shared/utils/s3';
 import { getVerifiedSession } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { OrderSchema, type OrderInput } from '@/shared/schemas/orders';
 import { ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus, Prisma } from '@prisma/client';
-import { notFound } from 'next/navigation';
+
+type EditableOrder = Prisma.OrderGetPayload<{ include: { items: true } }>;
+
+function normalizeDate(date: Date | null) {
+  return date?.toISOString().slice(0, 10) ?? '';
+}
+
+function normalizeItems(
+  items: {
+    name: string;
+    description: string | null;
+    price: string | number | Prisma.Decimal | null | undefined;
+  }[]
+) {
+  return items
+    .map((item) => ({
+      name: item.name,
+      description: item.description ?? '',
+      price: +(item.price ?? 0),
+    }))
+    .sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+}
+
+function haveOrderTermsChanged(existing: EditableOrder, input: OrderInput, price: number) {
+  const currentTerms = {
+    clientId: existing.clientId,
+    title: existing.title,
+    description: existing.description ?? '',
+    startDate: normalizeDate(existing.startDate),
+    deadline: normalizeDate(existing.deadline),
+    paymentMethod: existing.paymentMethod ?? null,
+    price: +existing.price,
+    items: normalizeItems(existing.items),
+  };
+  const nextTerms = {
+    clientId: input.clientId,
+    title: input.title,
+    description: input.description || '',
+    startDate: input.startDate || '',
+    deadline: input.deadline || '',
+    paymentMethod: input.paymentMethod ?? null,
+    price,
+    items: normalizeItems(input.items),
+  };
+
+  return JSON.stringify(currentTerms) !== JSON.stringify(nextTerms);
+}
 
 export async function getOrders(params: {
   offset: number;
@@ -96,6 +143,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     publicToken: order.publicToken,
     sentAt: order.sentAt,
     confirmedAt: order.confirmedAt,
+    isTermsAccepted: order.isTermsAccepted,
     createdAt: order.createdAt,
     updatedAt: order.updatedAt,
     clientId: order.clientId,
@@ -192,9 +240,14 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
   if (!success) return { error: getValidationErrorMessage(error) };
 
-  const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
+  const existing = await db.order.findUnique({
+    where: { id, userId: session.user.id },
+    include: { items: true },
+  });
   if (!existing) return { error: 'Заказ не найден' };
   const price = parsed.items.reduce((sum, item) => sum + item.price, 0);
+  const shouldResetTerms =
+    existing.isTermsAccepted && haveOrderTermsChanged(existing, parsed, price);
 
   await db.$transaction([
     db.orderItem.deleteMany({ where: { orderId: id } }),
@@ -208,6 +261,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
         deadline: parsed.deadline ? new Date(parsed.deadline) : null,
         price,
         paymentMethod: parsed.paymentMethod ?? null,
+        ...(shouldResetTerms ? { isTermsAccepted: false } : {}),
         items: {
           create: parsed.items.map((item) => ({
             name: item.name,
@@ -265,35 +319,23 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   if (!verifiedSession.ok) return { error: verifiedSession.error };
   const { session } = verifiedSession;
 
-  const existing = await db.order.findUnique({ where: { id, userId: session.user.id } });
+  const existing = await db.order.findUnique({
+    where: { id, userId: session.user.id },
+    select: {
+      documents: { select: { url: true } },
+      reports: { select: { storageKey: true } },
+    },
+  });
   if (!existing) return { error: 'Заказ не найден' };
 
   await db.order.delete({ where: { id } });
 
+  const storageKeys = [
+    ...existing.documents.map((document) => document.url),
+    ...existing.reports.map((report) => report.storageKey),
+  ];
+  await Promise.allSettled(storageKeys.map(deleteS3ObjectByKey));
+
   revalidatePath('/orders');
-  return {};
-}
-
-export async function confirmOrderByClient(token: string): Promise<{ error?: string }> {
-  const order = await db.order.findUnique({ where: { publicToken: token } });
-  if (!order) notFound();
-
-  if (order.status !== 'SENT')
-    return { error: 'Заказ уже подтверждён или не готов к подтверждению' };
-
-  await db.$transaction([
-    db.order.update({
-      where: { id: order.id },
-      data: { status: 'CONFIRMED', confirmedAt: new Date() },
-    }),
-    db.activity.create({
-      data: {
-        orderId: order.id,
-        type: 'CONFIRMED',
-      },
-    }),
-  ]);
-
-  revalidatePath(`/order/${token}`);
   return {};
 }

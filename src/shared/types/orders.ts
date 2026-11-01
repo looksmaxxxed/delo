@@ -39,6 +39,7 @@ export type OrderDetails = {
   publicToken: string;
   sentAt: Date | null;
   confirmedAt: Date | null;
+  isTermsAccepted: boolean;
   createdAt: Date;
   updatedAt: Date;
   clientId: string;

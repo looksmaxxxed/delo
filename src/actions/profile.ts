@@ -9,6 +9,7 @@ import { deleteS3ObjectByKey, uploadToS3 } from '@/shared/utils/s3';
 import { sendEmailVerificationMessage } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { ProfileSchema, type ProfileInput } from '@/shared/schemas/profile';
+import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
 import {
   PROFILE_IMAGE_ALLOWED_TYPES,
   PROFILE_IMAGE_EXTENSION_BY_TYPE,
@@ -42,12 +43,34 @@ export async function updateProfile(data: ProfileInput): Promise<{ error?: strin
   const { data: parsed, success, error } = ProfileSchema.safeParse(data);
   if (!success) return { error: getValidationErrorMessage(error) };
 
-  await db.user.update({
+  const user = await db.user.findUnique({
     where: { id: session.user.id },
-    data: {
-      name: parsed.name,
-      workTerms: parsed.workTerms || null,
-    },
+    select: { name: true, workTerms: true },
+  });
+  if (!user) return { error: 'Пользователь не найден' };
+
+  const nextWorkTerms = parsed.workTerms || null;
+  const termsChanged = user.name !== parsed.name || user.workTerms !== nextWorkTerms;
+
+  await db.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: session.user.id },
+      data: {
+        name: parsed.name,
+        workTerms: nextWorkTerms,
+      },
+    });
+
+    if (termsChanged) {
+      await tx.order.updateMany({
+        where: {
+          userId: session.user.id,
+          isTermsAccepted: true,
+          status: { in: [...ORDER_TERMS_CONFIRMABLE_STATUSES] },
+        },
+        data: { isTermsAccepted: false },
+      });
+    }
   });
 
   revalidatePath(PROFILE_ROUTE);

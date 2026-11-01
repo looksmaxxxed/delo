@@ -1,4 +1,4 @@
-import { getPublicOrder } from '@/actions/get-public-order';
+import { getPublicOrder } from '@/actions/public-orders';
 import { OrderHero } from '@/features/order/common/ui/order-hero';
 import { OrderItemsSection } from '@/features/order/common/ui/order-items-section';
 import { OrderStatusProgress } from '@/features/order/common/ui/order-status-progress';
@@ -20,6 +20,7 @@ export default async function PublicOrderPage(props: PublicOrderPageProps) {
     <PublicOrderFeature
       order={{
         status: order.status,
+        isTermsAccepted: order.isTermsAccepted,
         price: order.price,
         paymentMethod: order.paymentMethod,
         paymentStatus: order.paymentStatus,

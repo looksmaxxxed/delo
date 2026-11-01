@@ -4,6 +4,7 @@ import { Badge } from '@/shared/components/ui/data/badge';
 import { DetailItem } from '@/shared/components/ui/data/detail-item';
 import { SectionCard } from '@/shared/components/ui/data/section-card';
 import { PAYMENT_METHOD_OPTIONS_MAP, PAYMENT_STATUS_LABELS } from '@/constants/payments';
+import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
 import { formatPrice } from '@/shared/utils/format';
 import type { PublicOrderSummary } from '../types';
 
@@ -19,6 +20,9 @@ export function PaymentInfoSection(props: PaymentInfoSectionProps) {
   const { price, paymentMethod, paymentStatus, totalPaid } = order;
   const isPaid = paymentStatus === 'PAID';
   const remaining = Math.max(0, price - totalPaid);
+  const canConfirmTerms =
+    !order.isTermsAccepted &&
+    ORDER_TERMS_CONFIRMABLE_STATUSES.some((status) => status === order.status);
 
   return (
     <SectionCard
@@ -57,7 +61,7 @@ export function PaymentInfoSection(props: PaymentInfoSectionProps) {
             </DetailItem>
           </dl>
 
-          {order.status === 'SENT' && (
+          {canConfirmTerms && (
             <div className="border-primary/20 bg-primary/5 rounded-xl border p-4">
               <p className="text-muted-foreground mb-4 text-sm leading-6">
                 Подтвердите, что ознакомились с составом заказа, стоимостью и условиями работы.

@@ -13,6 +13,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  outputFileTracingIncludes: {
+    '/order/\\[token\\]': ['src/assets/fonts/*.ttf', 'src/assets/images/delo-logo-light.png'],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: '6mb',

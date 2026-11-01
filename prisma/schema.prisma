@@ -143,6 +143,7 @@ model Order {
   publicToken           String    @unique @default(cuid())
   sentAt                DateTime?
   confirmedAt           DateTime?
+  isTermsAccepted       Boolean   @default(false)
 
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
@@ -153,6 +154,7 @@ model Order {
   payments   Payment[]
   documents  Document[]
   activities Activity[]
+  reports    OrderReport[]
 }
 
 // ─── Состав работ ─────────────────────────────────────────────────────────────
@@ -196,6 +198,31 @@ model Document {
   createdAt DateTime     @default(now())
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ─── Отчёты по подтверждённым условиям ───────────────────────────────────────
+
+enum OrderReportStatus {
+  GENERATING
+  READY
+  FAILED
+}
+
+model OrderReport {
+  id           String            @id @default(cuid())
+  orderId      String
+  version      Int
+  snapshot     Json
+  status       OrderReportStatus @default(GENERATING)
+  storageKey   String?
+  confirmedAt  DateTime
+  generatedAt  DateTime?
+  createdAt    DateTime          @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, version])
+  @@index([orderId, createdAt])
 }
 
 // ─── История действий ─────────────────────────────────────────────────────────
