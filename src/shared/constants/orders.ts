@@ -47,3 +47,9 @@ export const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
 };
 
 export const ORDER_FINAL_STATUSES = [OrderStatus.COMPLETED, OrderStatus.CANCELLED] as const;
+
+export const ORDER_TERMS_CONFIRMABLE_STATUSES = [
+  OrderStatus.SENT,
+  OrderStatus.CONFIRMED,
+  OrderStatus.IN_PROGRESS,
+] as const;

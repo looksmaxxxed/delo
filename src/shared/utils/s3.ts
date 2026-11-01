@@ -10,6 +10,7 @@ type UploadToS3Input = {
   key: string;
   body: Buffer;
   contentType: string;
+  cacheControl?: string;
 };
 
 const s3Client = new S3Client({
@@ -23,7 +24,7 @@ const s3Client = new S3Client({
 });
 
 export async function uploadToS3(input: UploadToS3Input) {
-  const { key, body, contentType } = input;
+  const { key, body, contentType, cacheControl = 'public, max-age=31536000, immutable' } = input;
 
   await s3Client.send(
     new PutObjectCommand({
@@ -31,7 +32,7 @@ export async function uploadToS3(input: UploadToS3Input) {
       Key: `${env.APP_ENV}/${key}`,
       Body: body,
       ContentType: contentType,
-      CacheControl: 'public, max-age=31536000, immutable',
+      CacheControl: cacheControl,
     })
   );
 }

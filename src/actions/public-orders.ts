@@ -1,8 +1,8 @@
 'use server';
 
 import { notFound } from 'next/navigation';
-import { db } from '@/config/db';
-import type { PublicOrderData } from '@/types/public-orders';
+import { db } from '@/shared/config/db';
+import type { PublicOrderData } from '@/shared/types/public-orders';
 
 export async function getPublicOrder(token: string): Promise<PublicOrderData> {
   const order = await db.order.findUnique({
@@ -38,6 +38,7 @@ export async function getPublicOrder(token: string): Promise<PublicOrderData> {
     startDate: order.startDate,
     deadline: order.deadline,
     confirmedAt: order.confirmedAt,
+    isTermsAccepted: order.isTermsAccepted,
     createdAt: order.createdAt,
     client: order.client,
     executorName: order.user.name,

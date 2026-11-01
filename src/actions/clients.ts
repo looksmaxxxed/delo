@@ -6,6 +6,7 @@ import { db } from '@/config/db';
 import { getVerifiedSession } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { ClientSchema, type ClientInput } from '@/shared/schemas/clients';
+import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
 import type { ClientDetails, ClientListItem } from '@/types/clients';
 import { Prisma } from '@prisma/client';
 
@@ -115,15 +116,37 @@ export async function updateClient(id: string, data: ClientInput): Promise<{ err
   const existing = await db.client.findUnique({ where: { id, userId: session.user.id } });
   if (!existing) return { error: 'Клиент не найден' };
 
-  await db.client.update({
-    where: { id },
-    data: {
-      name: parsed.name,
-      contact: parsed.contact || null,
-      company: parsed.company || null,
-      inn: parsed.inn || null,
-      notes: parsed.notes || null,
-    },
+  const nextContact = parsed.contact || null;
+  const nextCompany = parsed.company || null;
+  const nextInn = parsed.inn || null;
+  const termsChanged =
+    existing.name !== parsed.name ||
+    existing.contact !== nextContact ||
+    existing.company !== nextCompany ||
+    existing.inn !== nextInn;
+
+  await db.$transaction(async (tx) => {
+    await tx.client.update({
+      where: { id },
+      data: {
+        name: parsed.name,
+        contact: nextContact,
+        company: nextCompany,
+        inn: nextInn,
+        notes: parsed.notes || null,
+      },
+    });
+
+    if (termsChanged) {
+      await tx.order.updateMany({
+        where: {
+          clientId: id,
+          isTermsAccepted: true,
+          status: { in: [...ORDER_TERMS_CONFIRMABLE_STATUSES] },
+        },
+        data: { isTermsAccepted: false },
+      });
+    }
   });
 
   revalidatePath('/clients');

@@ -19,6 +19,7 @@ export type PublicOrderData = {
   startDate: Date | null;
   deadline: Date | null;
   confirmedAt: Date | null;
+  isTermsAccepted: boolean;
   createdAt: Date;
   client: {
     name: string;
