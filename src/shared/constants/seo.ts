@@ -3,9 +3,9 @@ export const SEO_SITE_HOST = new URL(SEO_SITE_URL).hostname;
 export const SEO_SITE_HOST_PATTERN = SEO_SITE_HOST.replace(/\./g, '\\.');
 
 export const SEO_SITE_NAME = 'Delo';
-export const SEO_TITLE = 'Delo — клиенты, заказы и оплаты для фрилансеров';
+export const SEO_TITLE = 'Delo — заказы, оплаты и аналитика для фрилансеров';
 export const SEO_DESCRIPTION =
-  'Сервис для фрилансеров и самозанятых: клиенты, заказы, согласование условий по ссылке, учёт оплат и PDF. Все функции бесплатны на этапе MVP.';
+  'Управляйте клиентами и заказами, согласовывайте условия по ссылке, учитывайте оплаты, следите за показателями на дашборде и сохраняйте PDF-отчёты.';
 
 export const SEO_SOCIAL_IMAGE = {
   url: '/og-image.png',

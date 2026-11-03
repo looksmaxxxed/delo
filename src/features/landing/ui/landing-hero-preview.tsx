@@ -67,7 +67,7 @@ export function LandingHeroPreview() {
                 alt={screen.alt}
                 className="block h-full w-full object-cover object-top"
                 sizes="(min-width: 1100px) 1000px, 100vw"
-                loading="eager"
+                loading={index === 0 ? 'eager' : 'lazy'}
               />
             </div>
           ))}

@@ -39,7 +39,7 @@ export function LandingFeatures() {
           >
             <motion.div
               variants={LANDING_REVEAL_VARIANTS.default}
-              className={cn('landing-reveal max-w-lg', index === 1 && 'lg:order-2')}
+              className={cn('landing-reveal max-w-lg', index % 2 === 1 && 'lg:order-2')}
             >
               <h3 className="whitespace-pre-line text-3xl font-bold leading-[1.18] tracking-[-0.035em] sm:text-4xl">
                 {story.title}
@@ -51,12 +51,12 @@ export function LandingFeatures() {
               <LandingScribble
                 variant="arrow"
                 reveal
-                className={cn('mt-6 hidden w-24 lg:block', index === 1 && '-scale-x-100')}
+                className={cn('mt-6 hidden w-24 lg:block', index % 2 === 1 && '-scale-x-100')}
               />
             </motion.div>
             <motion.figure
               variants={LANDING_REVEAL_VARIANTS.visual}
-              className={cn('landing-reveal min-w-0', index === 1 && 'lg:order-1')}
+              className={cn('landing-reveal min-w-0', index % 2 === 1 && 'lg:order-1')}
             >
               <div className="border-foreground/15 bg-surface overflow-hidden rounded-xl border">
                 <Image
