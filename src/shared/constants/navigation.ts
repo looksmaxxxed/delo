@@ -32,7 +32,7 @@ export const NAV_ITEMS: Record<NavItemKey, NavItem> = {
   reports: {
     href: '/reports',
     label: 'Отчёты',
-    description: 'Анализируйте доходы и статистику по периодам',
+    description: 'Просматривайте и скачивайте отчёты по заказам',
     Icon: TrendingUpIcon,
   },
   profile: {

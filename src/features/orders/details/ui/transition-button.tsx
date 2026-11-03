@@ -3,6 +3,7 @@
 import type { ComponentProps } from 'react';
 import { Button } from '@/shared/components/ui/actions/button';
 import { cn } from '@/shared/utils/cn';
+import { ORDER_ACTION_BUTTON_CLASS_NAME } from '../constants';
 import type { OrderTransitionAction } from '../types';
 
 type TransitionButtonProps = {
@@ -23,7 +24,7 @@ export function TransitionButton(props: TransitionButtonProps) {
     <Button
       variant={action.destructive ? 'destructive' : 'outline'}
       size={size}
-      className={cn(!size && '[&_svg]:size-4! rounded-sm px-4 text-sm font-semibold', className)}
+      className={cn(!size && ORDER_ACTION_BUTTON_CLASS_NAME, className)}
       Icon={action.Icon}
       onClick={handleClick}
     >

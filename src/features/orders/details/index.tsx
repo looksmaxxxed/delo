@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { updateOrderStatus } from '@/actions/orders';
+import { deleteOrder, updateOrderStatus } from '@/actions/orders';
 import { attachOrderReceipt, deleteOrderDocument } from '@/actions/documents';
 import { addPayment } from '@/actions/payments';
 import { useConfirmation } from '@/shared/components/providers/confirmation/confirmation.hook';
@@ -34,12 +34,21 @@ type OrderDetailsFeatureProps = OrderDetailsSlots & {
   orderId: string;
   currentStatus: OrderStatus;
   documents: OrderDocumentEntry[];
+  latestReadyReportId: string | null;
   publicOrderUrl: string;
   editHref: Route<string>;
 };
 
 export function OrderDetailsFeature(props: OrderDetailsFeatureProps) {
-  const { orderId, currentStatus, documents, publicOrderUrl, editHref, ...slots } = props;
+  const {
+    orderId,
+    currentStatus,
+    documents,
+    latestReadyReportId,
+    publicOrderUrl,
+    editHref,
+    ...slots
+  } = props;
   const canEditOrder = !ORDER_FINAL_STATUSES.some((status) => status === currentStatus);
   const router = useRouter();
   const confirm = useConfirmation();
@@ -112,6 +121,26 @@ export function OrderDetailsFeature(props: OrderDetailsFeatureProps) {
     });
   }
 
+  function requestDeleteOrder() {
+    async function performDeleteOrder() {
+      const { error } = await deleteOrder(orderId);
+      if (error) throw new Error(error);
+      toast.success('Заказ удалён');
+      router.push('/orders');
+      router.refresh();
+    }
+
+    confirm({
+      title: 'Удалить заказ?',
+      description:
+        'Это действие нельзя отменить. Вместе с заказом будут удалены все отчёты, документы, позиции, оплаты и история действий.',
+      confirmLabel: 'Удалить заказ',
+      Icon: DeleteIcon,
+      destructive: true,
+      action: performDeleteOrder,
+    });
+  }
+
   async function savePayment(data: PaymentInput) {
     const { error } = await addPayment(orderId, data);
     if (error) throw new Error(error);
@@ -140,10 +169,12 @@ export function OrderDetailsFeature(props: OrderDetailsFeatureProps) {
           <OrderStatusPanel
             currentStatus={currentStatus}
             publicOrderUrl={publicOrderUrl}
+            latestReadyReportId={latestReadyReportId}
             canEditOrder={canEditOrder}
             editHref={editHref}
             actions={actions}
             onTransition={requestTransition}
+            onDelete={requestDeleteOrder}
           />
         }
         documentsSection={

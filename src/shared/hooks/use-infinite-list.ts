@@ -13,8 +13,11 @@ type UseInfiniteListParams<T> = {
 type UseInfiniteListReturn<T> = {
   items: T[];
   hasMore: boolean;
+  isRefreshing: boolean;
   isLoadingMore: boolean;
   loadMore: () => Promise<void>;
+  reload: () => Promise<void>;
+  updateItem: (predicate: (item: T) => boolean, update: (item: T) => T) => void;
 };
 
 export function useInfiniteList<T>(params: UseInfiniteListParams<T>): UseInfiniteListReturn<T> {
@@ -24,6 +27,7 @@ export function useInfiniteList<T>(params: UseInfiniteListParams<T>): UseInfinit
 
   const [items, setItems] = useState<T[]>(initialItems);
   const [hasMore, setHasMore] = useState(initialHasMore);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
@@ -32,31 +36,44 @@ export function useInfiniteList<T>(params: UseInfiniteListParams<T>): UseInfinit
       return;
     }
 
-    if (isLoadingMore) return;
-
     async function reset() {
-      setIsLoadingMore(true);
-
-      const result = await fetch(0, pageSize);
-      setItems(result.items);
-      setHasMore(result.hasMore);
-
+      setIsRefreshing(true);
       setIsLoadingMore(false);
+
+      try {
+        const result = await fetch(0, pageSize);
+        setItems(result.items);
+        setHasMore(result.hasMore);
+      } finally {
+        setIsRefreshing(false);
+      }
     }
 
-    reset();
+    void reset();
   }, deps);
 
   async function loadMore() {
-    if (isLoadingMore || !hasMore) return;
+    if (isRefreshing || isLoadingMore || !hasMore) return;
     setIsLoadingMore(true);
 
-    const result = await fetch(items.length, pageSize);
-    setItems((prev) => [...prev, ...result.items]);
-    setHasMore(result.hasMore);
-
-    setIsLoadingMore(false);
+    try {
+      const result = await fetch(items.length, pageSize);
+      setItems((prev) => [...prev, ...result.items]);
+      setHasMore(result.hasMore);
+    } finally {
+      setIsLoadingMore(false);
+    }
   }
 
-  return { items, hasMore, isLoadingMore, loadMore };
+  async function reload() {
+    const result = await fetch(0, Math.max(items.length, pageSize));
+    setItems(result.items);
+    setHasMore(result.hasMore);
+  }
+
+  function updateItem(predicate: (item: T) => boolean, update: (item: T) => T) {
+    setItems((currentItems) => currentItems.map((item) => (predicate(item) ? update(item) : item)));
+  }
+
+  return { items, hasMore, isRefreshing, isLoadingMore, loadMore, reload, updateItem };
 }

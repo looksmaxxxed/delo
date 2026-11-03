@@ -37,6 +37,7 @@ export default async function OrderPage(props: OrderPageProps) {
         orderId={order.id}
         currentStatus={order.status}
         documents={order.documents}
+        latestReadyReportId={order.latestReadyReportId}
         publicOrderUrl={publicOrderUrl}
         editHref={`/orders/${id}/edit` as Route<string>}
         information={<OrderInformation order={order} />}

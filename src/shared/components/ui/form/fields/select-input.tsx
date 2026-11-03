@@ -37,7 +37,7 @@ export function SelectInput(props: SelectInputProps) {
 
   return (
     <Select value={selectedOption?.value ?? null} onValueChange={handleValueChange}>
-      <div className="relative">
+      <div className="relative isolate">
         <SelectTrigger
           className={cn(
             'surface-shadow bg-secondary/70 focus-visible:ring-ring/30 min-w-36 cursor-pointer focus-visible:ring-2 data-[size=default]:h-12',
@@ -59,7 +59,7 @@ export function SelectInput(props: SelectInputProps) {
         </SelectContent>
         <span
           className={cn(
-            'text-muted-foreground pointer-events-none absolute top-1/2 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
+            'text-muted-foreground pointer-events-none absolute top-1/2 z-10 -translate-y-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
             hasVisibleValue ? 'bg-secondary left-2.5 top-0 scale-[0.82] px-1' : 'left-3',
             'peer-data-popup-open:bg-secondary peer-data-popup-open:text-primary peer-data-popup-open:left-2.5 peer-data-popup-open:top-0 peer-data-popup-open:scale-[0.82] peer-data-popup-open:px-1'
           )}

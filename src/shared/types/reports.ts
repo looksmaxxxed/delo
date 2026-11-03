@@ -34,6 +34,19 @@ export type OrderReportEntry = {
   version: number;
   status: OrderReportStatus;
   confirmedAt: Date;
+  generationStartedAt: Date;
   generatedAt: Date | null;
   createdAt: Date;
+};
+
+export type OrderReportListItem = {
+  id: string;
+  version: number;
+  status: OrderReportStatus;
+  generationStartedAt: Date;
+  generatedAt: Date | null;
+  orderId: string;
+  orderTitle: string;
+  clientId: string;
+  clientName: string;
 };

@@ -209,15 +209,16 @@ enum OrderReportStatus {
 }
 
 model OrderReport {
-  id           String            @id @default(cuid())
-  orderId      String
-  version      Int
-  snapshot     Json
-  status       OrderReportStatus @default(GENERATING)
-  storageKey   String?
-  confirmedAt  DateTime
-  generatedAt  DateTime?
-  createdAt    DateTime          @default(now())
+  id                  String            @id @default(cuid())
+  orderId             String
+  version             Int
+  snapshot            Json
+  status              OrderReportStatus @default(GENERATING)
+  storageKey          String?
+  confirmedAt         DateTime
+  generationStartedAt DateTime          @default(now())
+  generatedAt         DateTime?
+  createdAt           DateTime          @default(now())
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 

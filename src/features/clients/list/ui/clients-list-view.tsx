@@ -13,6 +13,7 @@ import { columns } from '../constants';
 type ClientsListViewProps = {
   items: ClientListItem[];
   hasMore: boolean;
+  isRefreshing: boolean;
   isLoadingMore: boolean;
   searchFilter: string;
   createOpen: boolean;
@@ -28,6 +29,7 @@ export function ClientsListView(props: ClientsListViewProps) {
   const {
     items,
     hasMore,
+    isRefreshing,
     isLoadingMore,
     searchFilter,
     createOpen,
@@ -65,8 +67,9 @@ export function ClientsListView(props: ClientsListViewProps) {
       <DataTable
         table={table}
         emptyMessage={searchFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
+        isLoading={isRefreshing}
         onRowClick={onSelectClient}
-        onEndReached={hasMore && !isLoadingMore ? onLoadMore : undefined}
+        onEndReached={hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined}
         isLoadingMore={isLoadingMore}
       />
 

@@ -21,7 +21,7 @@ export async function getClients(params: {
   const { offset, take, search } = params;
   const searchValue = search?.trim();
 
-  const items = await db.$queryRaw<ClientListItem[]>`
+  const rows = await db.$queryRaw<ClientListItem[]>`
     SELECT
       c.id,
       c.name,
@@ -36,11 +36,11 @@ export async function getClients(params: {
     ${searchValue ? Prisma.sql`AND c.name ILIKE ${`%${searchValue}%`}` : Prisma.empty}
     GROUP BY c.id
     ORDER BY c."createdAt" DESC
-    LIMIT ${take}
+    LIMIT ${take + 1}
     OFFSET ${offset}
   `;
 
-  return { items, hasMore: items.length === take };
+  return { items: rows.slice(0, take), hasMore: rows.length > take };
 }
 
 export async function getClient(id: string): Promise<ClientDetails | null> {

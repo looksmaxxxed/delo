@@ -35,7 +35,7 @@ export function OrdersList(props: OrdersListProps) {
     });
   }
 
-  const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<OrderListItem>({
+  const { items, hasMore, isRefreshing, isLoadingMore, loadMore } = useInfiniteList<OrderListItem>({
     initialItems,
     initialHasMore,
     fetch: fetchOrders,
@@ -69,6 +69,7 @@ export function OrdersList(props: OrdersListProps) {
     <OrdersListView
       items={items}
       hasMore={hasMore}
+      isRefreshing={isRefreshing}
       isLoadingMore={isLoadingMore}
       statusFilter={statusFilter}
       searchFilter={searchFilter}

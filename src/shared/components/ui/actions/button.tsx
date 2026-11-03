@@ -52,6 +52,7 @@ type ButtonMode = 'icon' | 'copy' | 'default';
 type ButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
     isLoading?: boolean;
+    isSuccess?: boolean;
     Icon?: AnimatedIconComponent;
     tooltip?: string;
     mode?: ButtonMode;
@@ -64,6 +65,7 @@ export function Button(props: ButtonProps) {
     variant,
     size,
     isLoading,
+    isSuccess,
     Icon,
     children,
     disabled,
@@ -80,6 +82,7 @@ export function Button(props: ButtonProps) {
   const IconComponent = isCopyMode ? CopyIcon : Icon;
   const effectiveTooltip = isCopyMode ? (tooltip ?? 'Копировать') : tooltip;
   const effectiveSize = mode === 'icon' || isCopyMode ? 'icon' : size;
+  const showSuccess = !!isSuccess || (isCopyMode && copied);
 
   function handleMouseEnter() {
     startAnimatedIcon(iconRef, !!isLoading);
@@ -111,9 +114,9 @@ export function Button(props: ButtonProps) {
     >
       {isLoading ? (
         <LoaderCircle size={18} className="animate-spin" />
-      ) : isCopyMode ? (
+      ) : (
         <AnimatePresence mode="wait" initial={false}>
-          {copied ? (
+          {showSuccess ? (
             <motion.span
               key="check"
               className="inline-flex"
@@ -124,21 +127,19 @@ export function Button(props: ButtonProps) {
             >
               <Check size={18} />
             </motion.span>
-          ) : (
+          ) : IconComponent ? (
             <motion.span
-              key="copy"
+              key="icon"
               className="inline-flex"
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.7 }}
               transition={{ duration: 0.15 }}
             >
-              {IconComponent && <IconComponent size={18} ref={iconRef} />}
+              <IconComponent size={18} ref={iconRef} />
             </motion.span>
-          )}
+          ) : null}
         </AnimatePresence>
-      ) : (
-        IconComponent && <IconComponent size={18} ref={iconRef} />
       )}
       {children}
     </ButtonPrimitive>

@@ -93,10 +93,10 @@ export async function getOrders(params: {
     },
     orderBy: { createdAt: 'desc' },
     skip: offset,
-    take,
+    take: take + 1,
   });
 
-  const items: OrderListItem[] = rows.map((row) => ({
+  const items: OrderListItem[] = rows.slice(0, take).map((row) => ({
     id: row.id,
     title: row.title,
     status: row.status,
@@ -107,7 +107,7 @@ export async function getOrders(params: {
     createdAt: row.createdAt,
   }));
 
-  return { items, hasMore: items.length === take };
+  return { items, hasMore: rows.length > take };
 }
 
 export async function getOrder(id: string): Promise<OrderDetails | null> {
@@ -123,6 +123,12 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
       documents: {
         where: { type: 'INVOICE', url: { not: null } },
         orderBy: { createdAt: 'desc' },
+      },
+      reports: {
+        where: { status: 'READY' },
+        select: { id: true },
+        orderBy: { version: 'desc' },
+        take: 1,
       },
       activities: { orderBy: { createdAt: 'desc' } },
     },
@@ -148,6 +154,7 @@ export async function getOrder(id: string): Promise<OrderDetails | null> {
     updatedAt: order.updatedAt,
     clientId: order.clientId,
     clientName: order.client.name,
+    latestReadyReportId: order.reports[0]?.id ?? null,
     items: order.items.map((item) => ({
       id: item.id,
       name: item.name,
@@ -322,6 +329,7 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   const existing = await db.order.findUnique({
     where: { id, userId: session.user.id },
     select: {
+      clientId: true,
       documents: { select: { url: true } },
       reports: { select: { storageKey: true } },
     },
@@ -337,5 +345,9 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   await Promise.allSettled(storageKeys.map(deleteS3ObjectByKey));
 
   revalidatePath('/orders');
+  revalidatePath('/reports');
+  revalidatePath('/clients');
+  revalidatePath(`/clients/${existing.clientId}`);
+  revalidatePath('/dashboard');
   return {};
 }

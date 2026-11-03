@@ -7,21 +7,36 @@ import { OrderStatusBadge } from '@/features/orders/common/ui/order-status-badge
 import { OrderStatusPanelCard } from './order-status-panel-card';
 import { TransitionButton } from './transition-button';
 import { Button } from '@/shared/components/ui/actions/button';
+import { DownloadButton } from '@/shared/components/ui/actions/download-button';
 import { ArrowRightIcon } from '@/shared/components/icons/arrow-right';
+import { DeleteIcon } from '@/shared/components/icons/delete';
+import { DownloadIcon } from '@/shared/components/icons/download';
 import type { OrderStatus } from '@prisma/client';
+import { ORDER_ACTION_BUTTON_CLASS_NAME } from '../constants';
 import type { OrderTransitionAction } from '../types';
 
 type OrderStatusPanelProps = {
   currentStatus: OrderStatus;
   publicOrderUrl: string;
+  latestReadyReportId: string | null;
   canEditOrder: boolean;
   editHref: Route<string>;
   actions: readonly OrderTransitionAction[];
   onTransition: (action: OrderTransitionAction) => void;
+  onDelete: () => void;
 };
 
 export function OrderStatusPanel(props: OrderStatusPanelProps) {
-  const { currentStatus, publicOrderUrl, canEditOrder, editHref, actions, onTransition } = props;
+  const {
+    currentStatus,
+    publicOrderUrl,
+    latestReadyReportId,
+    canEditOrder,
+    editHref,
+    actions,
+    onTransition,
+    onDelete,
+  } = props;
 
   return (
     <div className="border-border flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
@@ -53,21 +68,47 @@ export function OrderStatusPanel(props: OrderStatusPanelProps) {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <OrderLinkActions publicOrderUrl={publicOrderUrl} size="sm" />
+      <OrderStatusPanelCard title="Управление заказом" contentClassName="mt-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <OrderLinkActions
+            publicOrderUrl={publicOrderUrl}
+            className={ORDER_ACTION_BUTTON_CLASS_NAME}
+          />
 
-        {canEditOrder && (
+          {latestReadyReportId && (
+            <DownloadButton
+              href={`/api/reports/${latestReadyReportId}`}
+              variant="outline"
+              className={ORDER_ACTION_BUTTON_CLASS_NAME}
+              Icon={DownloadIcon}
+            >
+              Скачать отчёт
+            </DownloadButton>
+          )}
+
+          {canEditOrder && (
+            <Button
+              render={<Link href={editHref} />}
+              nativeButton={false}
+              variant="outline"
+              className={ORDER_ACTION_BUTTON_CLASS_NAME}
+              Icon={ArrowRightIcon}
+            >
+              Редактировать
+            </Button>
+          )}
+
           <Button
-            render={<Link href={editHref} />}
-            nativeButton={false}
-            variant="outline"
-            size="sm"
-            Icon={ArrowRightIcon}
+            type="button"
+            variant="destructive"
+            className={ORDER_ACTION_BUTTON_CLASS_NAME}
+            Icon={DeleteIcon}
+            onClick={onDelete}
           >
-            Редактировать
+            Удалить заказ
           </Button>
-        )}
-      </div>
+        </div>
+      </OrderStatusPanelCard>
     </div>
   );
 }
