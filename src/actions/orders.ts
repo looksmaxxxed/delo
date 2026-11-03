@@ -7,15 +7,17 @@ import { getDocumentFileName } from '@/shared/utils/document-file';
 import { deleteS3ObjectByKey } from '@/shared/utils/s3';
 import { getVerifiedSession } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
+import { formatDateInputValue } from '@/shared/utils/date';
 import { OrderSchema, type OrderInput } from '@/shared/schemas/orders';
 import { ORDER_STATUS_TRANSITIONS } from '@/constants/orders';
+import { DASHBOARD_ROUTE } from '@/shared/constants/routes';
 import type { OrderDetails, OrderListItem } from '@/types/orders';
 import type { OrderStatus, Prisma } from '@prisma/client';
 
 type EditableOrder = Prisma.OrderGetPayload<{ include: { items: true } }>;
 
 function normalizeDate(date: Date | null) {
-  return date?.toISOString().slice(0, 10) ?? '';
+  return date ? formatDateInputValue(date) : '';
 }
 
 function normalizeItems(
@@ -236,6 +238,7 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
   });
 
   revalidatePath('/orders');
+  revalidatePath(DASHBOARD_ROUTE);
   return { id: order.id };
 }
 
@@ -282,6 +285,7 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
 
   revalidatePath('/orders');
   revalidatePath(`/orders/${id}`);
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
 
@@ -318,6 +322,7 @@ export async function updateOrderStatus(
 
   revalidatePath('/orders');
   revalidatePath(`/orders/${id}`);
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
 
@@ -348,6 +353,6 @@ export async function deleteOrder(id: string): Promise<{ error?: string }> {
   revalidatePath('/reports');
   revalidatePath('/clients');
   revalidatePath(`/clients/${existing.clientId}`);
-  revalidatePath('/dashboard');
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
