@@ -44,6 +44,7 @@ export type OrderDetails = {
   updatedAt: Date;
   clientId: string;
   clientName: string;
+  latestReadyReportId: string | null;
   items: OrderItemData[];
   payments: PaymentEntry[];
   documents: OrderDocumentEntry[];

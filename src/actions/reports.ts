@@ -4,13 +4,18 @@ import { revalidatePath } from 'next/cache';
 import { notFound } from 'next/navigation';
 import { auth } from '@/shared/config/auth';
 import { db } from '@/shared/config/db';
+import { ORDER_REPORT_GENERATION_TIMEOUT_MS } from '@/shared/constants/reports';
 import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
-import type { OrderReportEntry, OrderReportSnapshot } from '@/shared/types/order-reports';
-import { getOrderReportStorageKey } from '@/shared/utils/order-report';
+import type {
+  OrderReportEntry,
+  OrderReportListItem,
+  OrderReportSnapshot,
+} from '@/shared/types/reports';
+import { getOrderReportStorageKey } from '@/shared/utils/reports';
 import { renderOrderReportPdf } from '@/shared/utils/pdf';
 import { deleteS3ObjectByKey, uploadToS3 } from '@/shared/utils/s3';
 import { getVerifiedSession } from '@/shared/utils/verification';
-import type { Prisma } from '@prisma/client';
+import type { OrderReportStatus, Prisma } from '@prisma/client';
 
 const ORDER_REPORT_ORDER_INCLUDE = {
   client: {
@@ -46,6 +51,16 @@ const ORDER_REPORT_ORDER_INCLUDE = {
 type OrderReportSource = Prisma.OrderGetPayload<{
   include: typeof ORDER_REPORT_ORDER_INCLUDE;
 }>;
+
+function parseReportDateFilter(value: string | undefined, endOfDay = false) {
+  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+
+  const time = endOfDay ? '23:59:59.999' : '00:00:00.000';
+  const date = new Date(`${value}T${time}Z`);
+  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) return null;
+
+  return date;
+}
 
 function createOrderReportSnapshot(order: OrderReportSource, confirmedAt: Date) {
   return {
@@ -136,11 +151,100 @@ export async function getOrderReports(orderId: string): Promise<OrderReportEntry
       version: true,
       status: true,
       confirmedAt: true,
+      generationStartedAt: true,
       generatedAt: true,
       createdAt: true,
     },
     orderBy: { version: 'desc' },
   });
+}
+
+export async function getReports(params: {
+  offset: number;
+  take: number;
+  status?: OrderReportStatus;
+  search?: string;
+  from?: string;
+  to?: string;
+}): Promise<{ items: OrderReportListItem[]; hasMore: boolean; now: number }> {
+  const now = Date.now();
+  const session = await auth();
+  if (!session) return { items: [], hasMore: false, now };
+
+  const { offset, take, status, search, from, to } = params;
+  const searchValue = search?.trim();
+  const generationStartedAt: Prisma.DateTimeFilter = {};
+  const fromDate = parseReportDateFilter(from);
+  const toDate = parseReportDateFilter(to, true);
+
+  if (fromDate) generationStartedAt.gte = fromDate;
+  if (toDate) generationStartedAt.lte = toDate;
+
+  const staleCutoff = new Date(now - ORDER_REPORT_GENERATION_TIMEOUT_MS);
+  let statusFilter: Prisma.OrderReportWhereInput = {};
+
+  if (status === 'FAILED') {
+    statusFilter = {
+      OR: [
+        { status: 'FAILED' },
+        { status: 'GENERATING', generationStartedAt: { lte: staleCutoff } },
+      ],
+    };
+  } else if (status === 'GENERATING') {
+    statusFilter = { status: 'GENERATING', generationStartedAt: { gt: staleCutoff } };
+  } else if (status) {
+    statusFilter = { status };
+  }
+
+  const rows = await db.orderReport.findMany({
+    where: {
+      ...statusFilter,
+      ...(Object.keys(generationStartedAt).length > 0 ? { generationStartedAt } : {}),
+      order: {
+        userId: session.user.id,
+        ...(searchValue
+          ? {
+              OR: [
+                { title: { contains: searchValue, mode: 'insensitive' } },
+                { client: { name: { contains: searchValue, mode: 'insensitive' } } },
+              ],
+            }
+          : {}),
+      },
+    },
+    select: {
+      id: true,
+      version: true,
+      status: true,
+      generationStartedAt: true,
+      generatedAt: true,
+      order: {
+        select: {
+          id: true,
+          title: true,
+          client: { select: { id: true, name: true } },
+        },
+      },
+    },
+    orderBy: [{ generationStartedAt: 'desc' }, { id: 'desc' }],
+    skip: offset,
+    take: take + 1,
+  });
+
+  const hasMore = rows.length > take;
+  const items = rows.slice(0, take).map((row) => ({
+    id: row.id,
+    version: row.version,
+    status: row.status,
+    generationStartedAt: row.generationStartedAt,
+    generatedAt: row.generatedAt,
+    orderId: row.order.id,
+    orderTitle: row.order.title,
+    clientId: row.order.client.id,
+    clientName: row.order.client.name,
+  }));
+
+  return { items, hasMore, now };
 }
 
 export async function confirmOrderByClient(token: string): Promise<{ error?: string }> {
@@ -166,6 +270,7 @@ export async function confirmOrderByClient(token: string): Promise<{ error?: str
         version,
         snapshot: createOrderReportSnapshot(order, confirmedAt),
         confirmedAt,
+        generationStartedAt: new Date(),
       },
       select: { id: true },
     });
@@ -190,6 +295,7 @@ export async function confirmOrderByClient(token: string): Promise<{ error?: str
 
   revalidatePath(`/order/${token}`);
   revalidatePath(`/orders/${confirmation.orderId}`);
+  revalidatePath('/reports');
   return {};
 }
 
@@ -205,16 +311,25 @@ export async function retryOrderReport(id: string): Promise<{ error?: string }> 
 
   if (!report) return { error: 'Отчёт не найден' };
   if (report.status === 'READY') return {};
-  if (report.status !== 'FAILED') return { error: 'Отчёт уже формируется' };
 
-  await db.orderReport.update({
-    where: { id: report.id },
-    data: { status: 'GENERATING' },
+  const generationStartedAt = new Date();
+  const staleCutoff = new Date(generationStartedAt.getTime() - ORDER_REPORT_GENERATION_TIMEOUT_MS);
+  const claimed = await db.orderReport.updateMany({
+    where: {
+      id: report.id,
+      OR: [
+        { status: 'FAILED' },
+        { status: 'GENERATING', generationStartedAt: { lte: staleCutoff } },
+      ],
+    },
+    data: { status: 'GENERATING', generationStartedAt },
   });
+  if (claimed.count === 0) return { error: 'Отчёт уже формируется' };
 
   const status = await generateOrderReport(report.id);
+  revalidatePath(`/orders/${report.orderId}`);
+  revalidatePath('/reports');
   if (status !== 'READY') return { error: 'Не удалось сформировать отчёт' };
 
-  revalidatePath(`/orders/${report.orderId}`);
   return {};
 }

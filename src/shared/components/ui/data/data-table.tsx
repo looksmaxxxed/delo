@@ -115,6 +115,9 @@ const VIRTUOSO_COMPONENTS: TableComponents<Row<unknown>, TableContext> = {
   EmptyPlaceholder: VirtuosoEmptyPlaceholder,
 };
 
+const TABLE_LOADING_ROWS = Array.from({ length: 8 }, (_, index) => index);
+const TABLE_LOADING_CELL_WIDTHS = ['w-3/4', 'w-1/2', 'w-5/6', 'w-2/3'] as const;
+
 type DataTableProps<T> = {
   table: TanstackTable<T>;
   emptyMessage?: string;
@@ -122,6 +125,7 @@ type DataTableProps<T> = {
   className?: string;
   onEndReached?: () => void;
   height?: number | string;
+  isLoading?: boolean;
   isLoadingMore?: boolean;
 };
 
@@ -133,6 +137,7 @@ export function DataTable<T>(props: DataTableProps<T>) {
     className,
     onEndReached,
     height = 600,
+    isLoading = false,
     isLoadingMore = false,
   } = props;
 
@@ -147,9 +152,10 @@ export function DataTable<T>(props: DataTableProps<T>) {
   return (
     <div
       className={cn(
-        'surface-shadow border-sidebar-border bg-surface flex flex-1 flex-col overflow-hidden rounded-2xl border',
+        'surface-shadow border-sidebar-border bg-surface relative flex flex-1 flex-col overflow-hidden rounded-2xl border',
         className
       )}
+      aria-busy={isLoading}
     >
       <TableVirtuoso
         data={data as Row<unknown>[]}
@@ -157,7 +163,7 @@ export function DataTable<T>(props: DataTableProps<T>) {
         style={{ height }}
         overscan={200}
         initialItemCount={data.length}
-        endReached={onEndReached}
+        endReached={isLoading ? undefined : onEndReached}
         components={VIRTUOSO_COMPONENTS}
         fixedHeaderContent={() =>
           table.getHeaderGroups().map((headerGroup) => (
@@ -230,6 +236,38 @@ export function DataTable<T>(props: DataTableProps<T>) {
           </>
         )}
       />
+      <div
+        className={cn(
+          'bg-surface absolute inset-x-0 bottom-0 top-12 z-20 flex items-center justify-center transition-opacity duration-200 motion-reduce:transition-none',
+          isLoading ? 'opacity-100' : 'pointer-events-none opacity-0'
+        )}
+      >
+        {isLoading && (
+          <div role="status" className="h-full w-full overflow-hidden">
+            <span className="sr-only">Загружаем данные…</span>
+            {TABLE_LOADING_ROWS.map((rowIndex) => (
+              <div
+                key={rowIndex}
+                className="border-sidebar-border h-17 flex items-center gap-8 border-b px-7"
+                aria-hidden
+              >
+                {Array.from({ length: context.columnCount }, (_, cellIndex) => (
+                  <div key={cellIndex} className="min-w-20 flex-1">
+                    <Skeleton
+                      className={cn(
+                        'h-4',
+                        TABLE_LOADING_CELL_WIDTHS[
+                          (rowIndex + cellIndex) % TABLE_LOADING_CELL_WIDTHS.length
+                        ]
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

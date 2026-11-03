@@ -1,9 +1,7 @@
-import Link from 'next/link';
 import { FileText } from 'lucide-react';
 import { SectionCard } from '@/shared/components/ui/data/section-card';
 import { DetailItem } from '@/shared/components/ui/data/detail-item';
-import { Button } from '@/shared/components/ui/actions/button';
-import { ArrowUpRightIcon } from '@/shared/components/icons/arrow-up-right';
+import { AnimatedLink } from '@/shared/components/ui/actions/animated-link';
 import { RETURN_TO } from '@/shared/constants/navigation';
 import { formatDate } from '@/shared/utils/format';
 import type { OrderDetails } from '@/shared/types/orders';
@@ -26,20 +24,12 @@ export function OrderInformation(props: OrderInformationProps) {
           label="Клиент"
           className="flex items-start justify-between gap-6 [&_dd]:min-w-0 [&_dd]:text-right [&_dt]:shrink-0 [&_dt]:text-sm [&_dt]:font-normal"
         >
-          <span className="flex items-center justify-end">
+          <AnimatedLink
+            href={`/clients/${order.clientId}?${RETURN_TO}=/orders/${order.id}`}
+            className="max-w-full justify-end"
+          >
             {order.clientName}
-            <Link
-              href={`/clients/${order.clientId}?${RETURN_TO}=/orders/${order.id}`}
-              className="ml-2 shrink-0"
-            >
-              <Button
-                mode="icon"
-                variant="ghost"
-                Icon={ArrowUpRightIcon}
-                tooltip="Открыть клиента"
-              />
-            </Link>
-          </span>
+          </AnimatedLink>
         </DetailItem>
         <DetailItem
           label="Создан"

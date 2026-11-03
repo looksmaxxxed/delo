@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { confirmOrderByClient } from '@/actions/order-reports';
+import { confirmOrderByClient } from '@/actions/reports';
 import { useAsyncAction } from '@/shared/hooks/use-async-action';
 import type { PublicOrderSummary } from './types';
 import { PaymentInfoSection } from './ui/payment-info-section';

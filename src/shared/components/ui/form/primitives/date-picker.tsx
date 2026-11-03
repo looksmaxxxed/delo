@@ -21,6 +21,7 @@ import { ru } from 'date-fns/locale';
 import { CalendarDays } from 'lucide-react';
 import { ArrowLeftIcon } from '@/shared/components/icons/arrow-left';
 import { ArrowRightIcon } from '@/shared/components/icons/arrow-right';
+import { XIcon } from '@/shared/components/icons/x';
 import { Button } from '@/shared/components/ui/actions/button';
 import { cn } from '@/shared/utils/cn';
 
@@ -98,9 +99,15 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
       };
     }
 
+    function handleClearDate() {
+      onChange('');
+      setIsOpen(false);
+      onBlur?.();
+    }
+
     return (
       <Popover.Root open={isOpen} onOpenChange={handleOpenChange}>
-        <div className="relative">
+        <div className="relative isolate">
           <Popover.Trigger
             ref={forwardedRef}
             type="button"
@@ -122,14 +129,26 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   : 'text-muted-foreground group-hover:text-primary group-focus-visible:text-primary'
               )}
             />
-            <span className="min-w-0 flex-1 truncate pl-2 pr-6">
+            <span className="min-w-0 flex-1 truncate pl-2 pr-8">
               {formattedValue || <span className="opacity-0">{label}</span>}
             </span>
           </Popover.Trigger>
 
+          {formattedValue && !disabled && (
+            <Button
+              type="button"
+              mode="icon"
+              variant="ghost"
+              className="absolute right-1.5 top-1/2 z-20 size-7 -translate-y-1/2"
+              tooltip="Сбросить дату"
+              Icon={XIcon}
+              onClick={handleClearDate}
+            />
+          )}
+
           <span
             className={cn(
-              'pointer-events-none absolute top-1/2 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
+              'pointer-events-none absolute top-1/2 z-10 text-sm font-normal transition-[top,left,transform,padding,background-color,color] duration-200',
               isFloating
                 ? 'bg-surface text-primary left-2.5 top-0 -translate-y-1/2 scale-[0.82] px-1'
                 : 'text-muted-foreground left-9 -translate-y-1/2'

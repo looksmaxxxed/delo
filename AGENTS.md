@@ -44,8 +44,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ```
 src/
 ├── app/
-│   ├── (auth)/          # login, register — без dashboard layout
-│   ├── (dashboard)/     # защищённые роуты с sidebar
+│   ├── (auth)/          # login, register — без sidebar layout
+│   ├── (app)/           # основная защищённая часть с sidebar
 │   ├── order/[token]/   # публичная страница заказа (без авторизации)
 │   └── api/             # NextAuth, PDF download, profile image proxy
 ├── features/            # компоненты конкретных сценариев: auth, clients, orders и т.д.

@@ -12,7 +12,7 @@ import {
   renderToBuffer,
 } from '@react-pdf/renderer';
 import { PAYMENT_METHOD_OPTIONS_MAP } from '@/shared/constants/payments';
-import type { OrderReportSnapshot } from '@/shared/types/order-reports';
+import type { OrderReportSnapshot } from '@/shared/types/reports';
 import { formatDate, formatPrice } from '@/shared/utils/format';
 
 const regularFontPath = path.join(process.cwd(), 'src/assets/fonts/roboto-regular.ttf');

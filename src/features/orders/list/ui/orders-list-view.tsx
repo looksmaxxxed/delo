@@ -14,6 +14,7 @@ import { OrdersTable } from './orders-table';
 type OrdersListViewProps = {
   items: OrderListItem[];
   hasMore: boolean;
+  isRefreshing: boolean;
   isLoadingMore: boolean;
   statusFilter: OrderStatus | null;
   searchFilter: string;
@@ -31,6 +32,7 @@ export function OrdersListView(props: OrdersListViewProps) {
   const {
     items,
     hasMore,
+    isRefreshing,
     isLoadingMore,
     statusFilter,
     searchFilter,
@@ -77,8 +79,9 @@ export function OrdersListView(props: OrdersListViewProps) {
       <OrdersTable
         items={items}
         emptyMessage={searchFilter || statusFilter ? 'Ничего не найдено' : 'Заказов пока нет'}
+        isLoading={isRefreshing}
         onRowClick={onSelectOrder}
-        onEndReached={hasMore && !isLoadingMore ? onLoadMore : undefined}
+        onEndReached={hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined}
         isLoadingMore={isLoadingMore}
       />
 

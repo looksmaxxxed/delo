@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "OrderReport" ADD COLUMN     "generationStartedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

@@ -44,6 +44,9 @@ export const ORDER_STATUS_ACTION_LABELS: Record<OrderStatus, string> = {
   CANCELLED: 'Отменить',
 };
 
+export const ORDER_ACTION_BUTTON_CLASS_NAME =
+  '[&_svg]:size-4! rounded-sm px-4 text-sm font-semibold';
+
 export const PAYMENT_FORM_DEFAULT_VALUES: PaymentInput = {
   amount: '',
   paidAt: format(new Date(), 'yyyy-MM-dd'),

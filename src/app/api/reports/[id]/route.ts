@@ -1,6 +1,6 @@
 import { auth } from '@/shared/config/auth';
 import { db } from '@/shared/config/db';
-import { getOrderReportFileName } from '@/shared/utils/order-report';
+import { getOrderReportFileName } from '@/shared/utils/reports';
 import { getS3Object } from '@/shared/utils/s3';
 import type { Prisma } from '@prisma/client';
 

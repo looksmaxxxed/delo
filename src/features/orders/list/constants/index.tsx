@@ -2,6 +2,8 @@ import { formatDate, formatPrice } from '@/shared/utils/format';
 import { type ColumnDef } from '@tanstack/react-table';
 import { Banknote, CalendarDays, FileText, Tag, UserRound } from 'lucide-react';
 import { OrderStatusBadge } from '@/features/orders/common/ui/order-status-badge';
+import { AnimatedLink } from '@/shared/components/ui/actions/animated-link';
+import { RETURN_TO } from '@/shared/constants/navigation';
 import type { OrderListItem } from '@/types/orders';
 import { ORDER_STATUS_LABELS } from '@/shared/constants/orders';
 import type { SelectOption } from '@/shared/types/forms';
@@ -45,7 +47,15 @@ export const ORDERS_TABLE_COLUMNS: ColumnDef<OrderListItem>[] = [
       </span>
     ),
     size: 240,
-    cell: ({ getValue }) => <span className="text-muted-foreground">{getValue<string>()}</span>,
+    cell: ({ row }) => (
+      <AnimatedLink
+        href={`/clients/${row.original.clientId}?${RETURN_TO}=/orders`}
+        className="text-muted-foreground max-w-full"
+        stopPropagation
+      >
+        {row.original.clientName}
+      </AnimatedLink>
+    ),
     enableGlobalFilter: true,
   },
   {

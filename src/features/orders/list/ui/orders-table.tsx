@@ -8,13 +8,14 @@ import { ORDERS_TABLE_COLUMNS } from '../constants';
 type OrdersTableProps = {
   items: OrderListItem[];
   emptyMessage: string;
+  isLoading: boolean;
   isLoadingMore: boolean;
   onRowClick: (order: OrderListItem) => void;
   onEndReached?: () => Promise<void>;
 };
 
 export function OrdersTable(props: OrdersTableProps) {
-  const { items, emptyMessage, isLoadingMore, onRowClick, onEndReached } = props;
+  const { items, emptyMessage, isLoading, isLoadingMore, onRowClick, onEndReached } = props;
   const table = useReactTable({
     data: items,
     columns: ORDERS_TABLE_COLUMNS,
@@ -25,6 +26,7 @@ export function OrdersTable(props: OrdersTableProps) {
     <DataTable
       table={table}
       emptyMessage={emptyMessage}
+      isLoading={isLoading}
       onRowClick={onRowClick}
       onEndReached={onEndReached}
       isLoadingMore={isLoadingMore}

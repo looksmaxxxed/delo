@@ -23,13 +23,15 @@ export function ClientsTable(props: ClientsTableProps) {
     return getClients({ offset, take, search: searchFilter || undefined });
   }
 
-  const { items, hasMore, isLoadingMore, loadMore } = useInfiniteList<ClientListItem>({
-    initialItems,
-    initialHasMore,
-    fetch: fetchClients,
-    pageSize: CLIENTS_PAGE_SIZE,
-    deps: [searchFilter],
-  });
+  const { items, hasMore, isRefreshing, isLoadingMore, loadMore } = useInfiniteList<ClientListItem>(
+    {
+      initialItems,
+      initialHasMore,
+      fetch: fetchClients,
+      pageSize: CLIENTS_PAGE_SIZE,
+      deps: [searchFilter],
+    }
+  );
   const [createOpen, setCreateOpen] = useState(false);
   const requireVerifiedEmail = useRequireVerifiedEmail();
 
@@ -55,6 +57,7 @@ export function ClientsTable(props: ClientsTableProps) {
     <ClientsListView
       items={items}
       hasMore={hasMore}
+      isRefreshing={isRefreshing}
       isLoadingMore={isLoadingMore}
       searchFilter={searchFilter}
       createOpen={createOpen}

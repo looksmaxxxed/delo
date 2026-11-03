@@ -65,9 +65,10 @@ export function FormCombobox<T extends FieldValues>(props: FormComboboxProps<T>)
     setIsLoadingMore(true);
 
     try {
-      const nextOptions = await loadOptions({ query, offset, take: pageSize });
+      const rows = await loadOptions({ query, offset, take: pageSize + 1 });
+      const nextOptions = rows.slice(0, pageSize);
       setOptions((prev) => (replace ? nextOptions : [...prev, ...nextOptions]));
-      setHasMore(nextOptions.length === pageSize);
+      setHasMore(rows.length > pageSize);
       offsetRef.current = offset + nextOptions.length;
     } finally {
       setIsLoadingMore(false);
