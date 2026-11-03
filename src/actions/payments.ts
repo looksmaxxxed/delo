@@ -6,6 +6,7 @@ import { calcPaymentStatus } from '@/shared/utils/payment';
 import { getVerifiedSession } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { PaymentSchema, type PaymentInput } from '@/shared/schemas/payments';
+import { DASHBOARD_ROUTE } from '@/shared/constants/routes';
 
 export async function addPayment(orderId: string, data: PaymentInput): Promise<{ error?: string }> {
   const verifiedSession = await getVerifiedSession();
@@ -48,5 +49,6 @@ export async function addPayment(orderId: string, data: PaymentInput): Promise<{
   ]);
 
   revalidatePath(`/orders/${orderId}`);
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }

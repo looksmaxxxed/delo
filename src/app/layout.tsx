@@ -54,6 +54,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
     <html
       lang="ru"
       className={`${inter.variable} ${geistMono.variable} ${outfit.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground flex min-h-full flex-col">

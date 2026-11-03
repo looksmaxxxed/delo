@@ -7,6 +7,7 @@ import { getVerifiedSession } from '@/shared/utils/verification';
 import { getValidationErrorMessage } from '@/shared/utils/validation';
 import { ClientSchema, type ClientInput } from '@/shared/schemas/clients';
 import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
+import { DASHBOARD_ROUTE } from '@/shared/constants/routes';
 import type { ClientDetails, ClientListItem } from '@/types/clients';
 import { Prisma } from '@prisma/client';
 
@@ -102,6 +103,7 @@ export async function createClient(
   });
 
   revalidatePath('/clients');
+  revalidatePath(DASHBOARD_ROUTE);
   return { id: client.id, name: client.name };
 }
 
@@ -150,6 +152,7 @@ export async function updateClient(id: string, data: ClientInput): Promise<{ err
   });
 
   revalidatePath('/clients');
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
 
@@ -164,5 +167,6 @@ export async function deleteClient(id: string): Promise<{ error?: string }> {
   await db.client.delete({ where: { id } });
 
   revalidatePath('/clients');
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }

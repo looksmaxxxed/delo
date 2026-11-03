@@ -6,6 +6,7 @@ import { auth } from '@/shared/config/auth';
 import { db } from '@/shared/config/db';
 import { ORDER_REPORT_GENERATION_TIMEOUT_MS } from '@/shared/constants/reports';
 import { ORDER_TERMS_CONFIRMABLE_STATUSES } from '@/shared/constants/orders';
+import { DASHBOARD_ROUTE } from '@/shared/constants/routes';
 import type {
   OrderReportEntry,
   OrderReportListItem,
@@ -15,6 +16,7 @@ import { getOrderReportStorageKey } from '@/shared/utils/reports';
 import { renderOrderReportPdf } from '@/shared/utils/pdf';
 import { deleteS3ObjectByKey, uploadToS3 } from '@/shared/utils/s3';
 import { getVerifiedSession } from '@/shared/utils/verification';
+import { isDateInputValue } from '@/shared/utils/date';
 import type { OrderReportStatus, Prisma } from '@prisma/client';
 
 const ORDER_REPORT_ORDER_INCLUDE = {
@@ -53,13 +55,11 @@ type OrderReportSource = Prisma.OrderGetPayload<{
 }>;
 
 function parseReportDateFilter(value: string | undefined, endOfDay = false) {
-  if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  if (!isDateInputValue(value)) return null;
 
   const time = endOfDay ? '23:59:59.999' : '00:00:00.000';
-  const date = new Date(`${value}T${time}Z`);
-  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) return null;
 
-  return date;
+  return new Date(`${value}T${time}Z`);
 }
 
 function createOrderReportSnapshot(order: OrderReportSource, confirmedAt: Date) {
@@ -296,6 +296,7 @@ export async function confirmOrderByClient(token: string): Promise<{ error?: str
   revalidatePath(`/order/${token}`);
   revalidatePath(`/orders/${confirmation.orderId}`);
   revalidatePath('/reports');
+  revalidatePath(DASHBOARD_ROUTE);
   return {};
 }
 
