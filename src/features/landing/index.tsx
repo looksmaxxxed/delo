@@ -1,6 +1,7 @@
 import { MotionConfig } from 'motion/react';
 import { LandingHeader } from './ui/landing-header';
 import { LandingHero } from './ui/landing-hero';
+import { LandingDashboard } from './ui/landing-dashboard';
 import { LandingFeatures } from './ui/landing-features';
 import { LandingSteps } from './ui/landing-steps';
 import { LandingFaq } from './ui/landing-faq';
@@ -21,6 +22,7 @@ export function LandingContent() {
       <MotionConfig reducedMotion="user">
         <main id="landing-main" tabIndex={-1}>
           <LandingHero />
+          <LandingDashboard />
           <LandingFeatures />
           <LandingSteps />
           <LandingFaq />
