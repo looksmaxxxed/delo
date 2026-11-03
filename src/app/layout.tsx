@@ -5,10 +5,8 @@ import { ThemeProvider } from '@/shared/components/providers/theme/theme.provide
 import { Toaster } from '@/shared/components/ui/feedback/sonner';
 import { env } from '@/config/env';
 import type { ReactNode } from 'react';
-import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Footer } from '@/shared/components/layout/footer';
 import { CookieSettingsProvider } from '@/shared/components/providers/cookie-settings/cookie-settings.provider';
-import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
 import {
   SEO_SITE_URL,
   SEO_SITE_NAME,
@@ -59,19 +57,15 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
       suppressHydrationWarning
     >
       <body className="bg-background text-foreground flex min-h-full flex-col">
-        <NuqsAdapter>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ConfirmationProvider>
-              <div className="dashboard-background flex min-h-dvh flex-1 flex-col">
-                {children}
-                <Toaster />
-                <CookieSettingsProvider analyticsEnabled={isProductionDeployment()}>
-                  <Footer />
-                </CookieSettingsProvider>
-              </div>
-            </ConfirmationProvider>
-          </ThemeProvider>
-        </NuqsAdapter>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="dashboard-background flex min-h-dvh flex-1 flex-col">
+            {children}
+            <Toaster />
+            <CookieSettingsProvider analyticsEnabled={isProductionDeployment()}>
+              <Footer />
+            </CookieSettingsProvider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

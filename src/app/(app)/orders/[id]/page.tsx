@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Route } from 'next';
 import { PageHeader } from '@/shared/components/layout/page-header';
+import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
 import { OrderDetailsFeature } from '@/features/orders/details';
 import { OrderInformation } from '@/features/orders/details/ui/order-information';
 import { OrderWorkItems } from '@/features/orders/details/ui/order-work-items';
@@ -33,24 +34,26 @@ export default async function OrderPage(props: OrderPageProps) {
         showIcon={false}
         backLink={{ href: backLink, label: 'заказам' }}
       />
-      <OrderDetailsFeature
-        orderId={order.id}
-        currentStatus={order.status}
-        documents={order.documents}
-        latestReadyReportId={order.latestReadyReportId}
-        publicOrderUrl={publicOrderUrl}
-        editHref={`/orders/${id}/edit` as Route<string>}
-        information={<OrderInformation order={order} />}
-        workItems={<OrderWorkItems items={order.items} />}
-        payments={
-          <PaymentsSection
-            payments={order.payments}
-            paymentStatus={order.paymentStatus}
-            orderPrice={order.price}
-          />
-        }
-        activity={<ActivityLog activities={order.activities} />}
-      />
+      <ConfirmationProvider>
+        <OrderDetailsFeature
+          orderId={order.id}
+          currentStatus={order.status}
+          documents={order.documents}
+          latestReadyReportId={order.latestReadyReportId}
+          publicOrderUrl={publicOrderUrl}
+          editHref={`/orders/${id}/edit` as Route<string>}
+          information={<OrderInformation order={order} />}
+          workItems={<OrderWorkItems items={order.items} />}
+          payments={
+            <PaymentsSection
+              payments={order.payments}
+              paymentStatus={order.paymentStatus}
+              orderPrice={order.price}
+            />
+          }
+          activity={<ActivityLog activities={order.activities} />}
+        />
+      </ConfirmationProvider>
     </div>
   );
 }

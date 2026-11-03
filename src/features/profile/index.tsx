@@ -1,6 +1,7 @@
 'use client';
 
 import type { UserProfile } from '@/shared/types/profile';
+import { ConfirmationProvider } from '@/shared/components/providers/confirmation/confirmation.provider';
 import { ProfileEditor } from './editor';
 import { ProfileSecurity } from './security';
 
@@ -11,7 +12,9 @@ export function ProfileForm(props: ProfileFormProps) {
 
   return (
     <div className="grid flex-1 items-start gap-6 lg:grid-cols-[minmax(0,1.75fr)_minmax(320px,0.95fr)]">
-      <ProfileEditor profile={profile} />
+      <ConfirmationProvider>
+        <ProfileEditor profile={profile} />
+      </ConfirmationProvider>
       <ProfileSecurity profile={profile} verificationStatus={verificationStatus} />
     </div>
   );

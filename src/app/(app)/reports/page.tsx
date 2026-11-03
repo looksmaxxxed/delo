@@ -1,5 +1,5 @@
 import { getReports } from '@/actions/reports';
-import { ReportsList } from '@/features/reports/list';
+import { ReportsList } from '@/features/reports';
 import { REPORTS_PAGE_SIZE } from '@/shared/constants/pagination';
 import { OrderReportStatus } from '@prisma/client';
 
