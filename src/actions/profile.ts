@@ -174,7 +174,11 @@ export async function resendEmailVerification(): Promise<{ error?: string; retry
     };
   }
 
-  await sendEmailVerificationMessage(user.email);
+  try {
+    await sendEmailVerificationMessage(user.email);
+  } catch {
+    return { error: 'Не удалось отправить письмо подтверждения. Попробуйте позже.' };
+  }
 
   return {};
 }

@@ -61,8 +61,9 @@ export function CookieConsent(props: CookieConsentProps) {
           <div className="p-5 sm:p-6">
             <h2 className="text-base font-semibold tracking-tight">Cookies и приватность</h2>
             <p className="text-muted-foreground mt-3 text-sm leading-6">
-              Cookies сохраняют вход и настройки. С вашего разрешения собираем аналитику посещений и
-              действий в сервисе. Отказ не ограничит его работу.
+              Необходимые cookies сохраняют вход и настройки. С вашего разрешения подключаем Яндекс
+              Метрику и Vercel Speed Insights для анализа посещений, источников переходов и действий
+              в сервисе. Без аналитики все функции доступны.
             </p>
             <Link
               href={LEGAL_PRIVACY_PATH}
@@ -71,21 +72,21 @@ export function CookieConsent(props: CookieConsentProps) {
               Подробнее о cookies
             </Link>
           </div>
-          <div className="border-border bg-muted/25 grid grid-cols-2 gap-3 border-t p-4 sm:px-6">
+          <div className="border-border bg-muted/25 grid grid-cols-1 gap-3 border-t p-4 sm:grid-cols-2 sm:px-6">
             <Button
               type="button"
               variant="outline"
               onClick={rejectAnalytics}
               className="border-border bg-surface dark:border-border h-10 px-2.5 text-sm xl:h-11 xl:px-3"
             >
-              Отклонить
+              Только необходимые
             </Button>
             <Button
               type="button"
               onClick={acceptAnalytics}
               className="h-10 px-2.5 text-sm xl:h-11 xl:px-3"
             >
-              Принять
+              Разрешить аналитику
             </Button>
           </div>
         </section>

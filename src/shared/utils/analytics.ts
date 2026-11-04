@@ -2,6 +2,7 @@ import {
   ANALYTICS_PATHS,
   METRICA_PATHS,
   METRICA_DYNAMIC_PATHS,
+  METRICA_UTM_PARAMS,
 } from '@/shared/constants/analytics';
 import { SEO_SITE_URL } from '@/shared/constants/seo';
 import { getAnalyticsConsent } from '@/shared/utils/analytics-consent';
@@ -27,17 +28,29 @@ export function getMetricaUrl(value: string) {
   try {
     const url = new URL(value, SEO_SITE_URL);
     const pathname = getMetricaPath(url.pathname);
-    return url.origin === SEO_SITE_URL && pathname ? `${SEO_SITE_URL}${pathname}` : null;
+    if (url.origin !== SEO_SITE_URL || !pathname) return null;
+
+    const result = new URL(pathname, SEO_SITE_URL);
+    if (isAnalyticsPath(pathname)) {
+      for (const key of METRICA_UTM_PARAMS) {
+        const value = url.searchParams.get(key);
+        if (value !== null) result.searchParams.set(key, value);
+      }
+    }
+
+    return result.href;
   } catch {
     return null;
   }
 }
 
 export function getAnalyticsReferrer() {
+  if (!document.referrer) return '';
+
   try {
-    // A nonempty fallback prevents the SDK from falling back to a raw document.referrer.
-    return document.referrer ? new URL(document.referrer).origin : SEO_SITE_URL;
+    return new URL(document.referrer).origin;
   } catch {
+    // Only a nonempty, invalid referrer needs a fallback to prevent the SDK from sending it raw.
     return SEO_SITE_URL;
   }
 }

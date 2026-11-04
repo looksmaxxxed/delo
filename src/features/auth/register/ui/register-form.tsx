@@ -8,7 +8,7 @@ import { FormInput } from '@/shared/components/ui/form/fields/form-input';
 import { ArrowRightIcon } from '@/shared/components/icons/arrow-right';
 import { FormCheckbox } from '@/shared/components/ui/form/fields/form-checkbox';
 import type { RegisterInput } from '@/shared/schemas/auth';
-import { LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
+import { LEGAL_PERSONAL_DATA_CONSENT_PATH, LEGAL_TERMS_PATH } from '@/shared/constants/legal';
 
 type RegisterFormViewProps = {
   form: UseFormReturn<RegisterInput>;
@@ -41,16 +41,30 @@ export function RegisterFormView(props: RegisterFormViewProps) {
         />
       </div>
 
-      <FormCheckbox control={control} name="legalAccepted">
-        Я принимаю{' '}
-        <Link href={LEGAL_TERMS_PATH} className="text-primary underline underline-offset-4">
-          условия использования
-        </Link>{' '}
-        и соглашаюсь с{' '}
-        <Link href={LEGAL_PRIVACY_PATH} className="text-primary underline underline-offset-4">
-          политикой обработки персональных данных
-        </Link>
-      </FormCheckbox>
+      <div className="flex flex-col gap-2">
+        <FormCheckbox control={control} name="termsAccepted">
+          Я принимаю{' '}
+          <Link
+            href={LEGAL_TERMS_PATH}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-4"
+          >
+            условия использования
+          </Link>
+        </FormCheckbox>
+        <FormCheckbox control={control} name="personalDataAccepted">
+          Даю{' '}
+          <Link
+            href={LEGAL_PERSONAL_DATA_CONSENT_PATH}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-4"
+          >
+            согласие на обработку персональных данных
+          </Link>
+        </FormCheckbox>
+      </div>
 
       <Button
         type="submit"

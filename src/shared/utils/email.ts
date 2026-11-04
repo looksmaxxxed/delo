@@ -45,10 +45,14 @@ export async function sendEmail(to: string, message: EmailMessage) {
     return;
   }
 
-  await getResend().emails.send({
+  const { error } = await getResend().emails.send({
     from: getResendFrom(),
     to,
     subject: message.subject,
     html: message.html,
   });
+
+  if (error) {
+    throw new Error('Не удалось отправить письмо. Попробуйте позже.');
+  }
 }

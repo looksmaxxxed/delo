@@ -1,5 +1,10 @@
 import Link from 'next/link';
-import { LEGAL_CONTACT_EMAIL, LEGAL_PRIVACY_PATH, LEGAL_TERMS_PATH } from '@/constants/legal';
+import {
+  LEGAL_CONTACT_EMAIL,
+  LEGAL_PERSONAL_DATA_CONSENT_PATH,
+  LEGAL_PRIVACY_PATH,
+  LEGAL_TERMS_PATH,
+} from '@/shared/constants/legal';
 import { BrandLogo } from '@/shared/components/layout/brand-logo';
 import { CookieSettingsButton } from '@/shared/components/layout/cookie-settings-button';
 
@@ -32,6 +37,14 @@ export function Footer() {
                 <li>
                   <Link href={LEGAL_TERMS_PATH} className="hover:text-foreground transition-colors">
                     Условия использования
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={LEGAL_PERSONAL_DATA_CONSENT_PATH}
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Согласие на обработку данных
                   </Link>
                 </li>
                 <li>

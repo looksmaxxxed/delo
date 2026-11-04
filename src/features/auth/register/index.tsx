@@ -22,7 +22,7 @@ export function RegisterForm() {
 
   async function onSubmit(data: RegisterInput) {
     const { email, password } = data;
-    const { error } = await registerUser(data);
+    const { error, verificationEmailSent } = await registerUser(data);
     if (error) {
       throw new Error(error);
     }
@@ -36,7 +36,11 @@ export function RegisterForm() {
       navigateTo(LOGIN_ROUTE);
       throw new Error('Регистрация прошла успешно. Войдите в аккаунт.');
     }
-    toast.success('Мы отправили ссылку подтверждения на ваш email');
+    if (verificationEmailSent) {
+      toast.success('Мы отправили ссылку подтверждения на ваш email');
+    } else {
+      toast.warning('Аккаунт создан, но письмо не отправлено. Запросите его повторно в профиле.');
+    }
     navigateTo(PROFILE_ROUTE);
   }
 
