@@ -5,5 +5,6 @@ export const REGISTER_DEFAULT_VALUES: RegisterInput = {
   email: '',
   password: '',
   confirmPassword: '',
-  legalAccepted: false,
+  termsAccepted: false,
+  personalDataAccepted: false,
 };

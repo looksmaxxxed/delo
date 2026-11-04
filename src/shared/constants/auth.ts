@@ -1,4 +1,4 @@
-export const LEGAL_CONSENT_VERSION = '2026-10-17.2';
+export const LEGAL_CONSENT_VERSION = '2026-11-04.3';
 
 export const LOGIN_ATTEMPTS_PER_TIER = 4;
 export const LOGIN_BASE_LOCKOUT_SECONDS = 30;

@@ -62,7 +62,9 @@ export async function loginUser(
   return {};
 }
 
-export async function registerUser(data: RegisterInput): Promise<{ error?: string }> {
+export async function registerUser(
+  data: RegisterInput
+): Promise<{ error?: string; verificationEmailSent?: boolean }> {
   const { data: parsedData, success, error } = RegisterSchema.safeParse(data);
   if (!success) {
     return { error: getValidationErrorMessage(error) };
@@ -91,11 +93,12 @@ export async function registerUser(data: RegisterInput): Promise<{ error?: strin
     },
   });
 
-  await sendEmailVerificationMessage(parsedData.email).catch(() => {
-    return;
-  });
-
-  return {};
+  try {
+    await sendEmailVerificationMessage(parsedData.email);
+    return { verificationEmailSent: true };
+  } catch {
+    return { verificationEmailSent: false };
+  }
 }
 
 export async function sendPasswordResetEmail(
@@ -123,7 +126,11 @@ export async function sendPasswordResetEmail(
   await db.passwordResetToken.create({ data: { email: parsed.email, token, expires } });
 
   const resetUrl = `${env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
-  await sendEmail(parsed.email, createPasswordResetEmail(resetUrl));
+  try {
+    await sendEmail(parsed.email, createPasswordResetEmail(resetUrl));
+  } catch {
+    return { error: 'Не удалось отправить письмо для восстановления пароля. Попробуйте позже.' };
+  }
 
   return {};
 }

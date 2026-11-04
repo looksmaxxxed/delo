@@ -18,8 +18,11 @@ export const RegisterSchema = z
     email: z.email('Некорректный email'),
     password: passwordSchema,
     confirmPassword: z.string().min(1, 'Подтвердите пароль'),
-    legalAccepted: z.boolean().refine((value) => value === true, {
-      message: 'Вы должны принять условия использования и политику обработки персональных данных',
+    termsAccepted: z.boolean().refine((value) => value === true, {
+      message: 'Примите условия использования',
+    }),
+    personalDataAccepted: z.boolean().refine((value) => value === true, {
+      message: 'Дайте отдельное согласие на обработку персональных данных',
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
