@@ -76,11 +76,15 @@ export function CookieConsent(props: CookieConsentProps) {
               type="button"
               variant="outline"
               onClick={rejectAnalytics}
-              className="border-border bg-surface dark:border-border h-11 px-3 text-sm"
+              className="border-border bg-surface dark:border-border h-10 px-2.5 text-sm xl:h-11 xl:px-3"
             >
               Отклонить
             </Button>
-            <Button type="button" onClick={acceptAnalytics} className="h-11 px-3 text-sm">
+            <Button
+              type="button"
+              onClick={acceptAnalytics}
+              className="h-10 px-2.5 text-sm xl:h-11 xl:px-3"
+            >
               Принять
             </Button>
           </div>

@@ -24,13 +24,13 @@ export function OrderDetailsView(props: OrderDetailsViewProps) {
     <>
       {statusPanel}
       {documentsSection}
-      <div className="grid items-stretch gap-6 lg:grid-cols-2">
+      <div className="grid items-stretch gap-6 xl:grid-cols-2">
         {information}
         <SectionCard
           title="Оплата"
           Icon={CircleDollarSign}
           action={paymentDialog}
-          className="h-88 flex min-h-0 flex-col overflow-hidden p-6"
+          className="xl:h-88 flex flex-col p-4 sm:p-6 xl:min-h-0 xl:overflow-hidden"
         >
           {payments}
         </SectionCard>
@@ -38,7 +38,7 @@ export function OrderDetailsView(props: OrderDetailsViewProps) {
         <SectionCard
           title="История"
           Icon={History}
-          className="flex h-80 min-h-0 flex-col overflow-hidden p-6"
+          className="flex flex-col p-4 sm:p-6 xl:h-80 xl:min-h-0 xl:overflow-hidden"
         >
           {activity}
         </SectionCard>

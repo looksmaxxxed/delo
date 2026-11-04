@@ -5,7 +5,7 @@ import { Skeleton } from '@/shared/components/ui/feedback/skeleton';
 export default function PublicOrderLoading() {
   return (
     <AnimateIn className="space-y-6">
-      <LoadingCard className="from-primary/10 via-card to-card bg-linear-to-br p-6 sm:p-8">
+      <LoadingCard className="from-primary/10 via-card to-card bg-linear-to-br p-4 sm:p-8">
         <div className="flex items-start justify-between gap-5">
           <div className="flex min-w-0 items-center gap-2.5">
             <Skeleton className="size-7 shrink-0 rounded-lg" />
@@ -48,7 +48,7 @@ export default function PublicOrderLoading() {
         </div>
       </LoadingCard>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
         <div className="grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-6">
           <LoadingCard className="flex h-full min-h-0 flex-col p-5 sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -120,7 +120,7 @@ export default function PublicOrderLoading() {
                 <Skeleton className="h-20 w-full rounded-xl" />
                 <div className="border-primary/20 bg-primary/5 space-y-4 rounded-xl border p-4">
                   <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-9 w-full rounded-lg" />
+                  <Skeleton className="h-10 w-full rounded-lg xl:h-11" />
                 </div>
               </div>
             </div>

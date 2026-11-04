@@ -14,7 +14,7 @@ import { LandingScribble } from '@/features/landing/ui/landing-scribble';
 
 export function LandingHero() {
   return (
-    <section className="landing-hero bg-background relative isolate px-5 pb-16 pt-14 sm:px-8 sm:pt-20 lg:pt-24">
+    <section className="landing-hero bg-background relative isolate px-5 pb-6 pt-10 sm:px-8 sm:pb-8 sm:pt-16 lg:pb-10 lg:pt-20">
       <motion.div
         aria-hidden
         initial="hidden"
@@ -101,13 +101,13 @@ export function LandingHero() {
         </motion.h1>
         <motion.p
           variants={LANDING_REVEAL_VARIANTS.default}
-          className="landing-reveal mx-auto mt-9 max-w-[600px] text-base leading-relaxed sm:mt-10 sm:text-xl"
+          className="landing-reveal mx-auto mt-7 max-w-[600px] text-base leading-relaxed sm:mt-9 sm:text-xl"
         >
           {LANDING_CONTENT.hero.description}
         </motion.p>
         <motion.div
           variants={LANDING_REVEAL_VARIANTS.default}
-          className="landing-reveal mt-8 flex flex-col items-center gap-3 sm:mt-9"
+          className="landing-reveal mt-6 flex flex-col items-center gap-3 sm:mt-8"
         >
           <LandingCta href="/register">{LANDING_CONTENT.hero.cta}</LandingCta>
           <p className="text-sm font-medium">{LANDING_CONTENT.pricingNotice}</p>
@@ -115,7 +115,7 @@ export function LandingHero() {
         <motion.div
           aria-hidden
           variants={LANDING_REVEAL_VARIANTS.decoration}
-          className="landing-reveal mx-auto mt-7 flex w-fit items-end gap-7 xl:hidden"
+          className="landing-reveal mx-auto mt-6 flex w-fit items-end gap-7 xl:hidden"
         >
           <Image
             src={LANDING_DOODLES.designer}
@@ -137,7 +137,7 @@ export function LandingHero() {
         whileInView="visible"
         viewport={LANDING_REVEAL_VIEWPORT}
         variants={LANDING_PREVIEW_GROUP}
-        className="relative mx-auto mt-9 max-w-[1000px] lg:mt-14"
+        className="relative mx-auto mt-7 max-w-[1000px] sm:mt-10 lg:mt-12"
       >
         <motion.div variants={LANDING_REVEAL_VARIANTS.visual} className="landing-reveal">
           <LandingHeroPreview />

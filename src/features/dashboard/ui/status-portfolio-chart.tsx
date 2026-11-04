@@ -34,7 +34,7 @@ export function StatusPortfolioChart(props: StatusPortfolioChartProps) {
       {visibleData.length === 0 ? (
         <ChartEmptyState />
       ) : (
-        <ChartContainer className="aspect-auto h-72 w-full">
+        <ChartContainer className="aspect-auto h-64 w-full sm:h-72">
           <BarChart
             data={visibleData}
             layout="vertical"
@@ -55,7 +55,7 @@ export function StatusPortfolioChart(props: StatusPortfolioChartProps) {
               axisLine={false}
               tickLine={false}
               tickMargin={8}
-              width={94}
+              width={80}
             />
             <Tooltip
               cursor={{ fill: 'var(--muted)', fillOpacity: 0.5 }}

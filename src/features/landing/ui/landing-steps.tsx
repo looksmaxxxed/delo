@@ -10,13 +10,13 @@ import { LandingCta } from '@/features/landing/ui/landing-cta';
 
 export function LandingSteps() {
   return (
-    <section id="how" className="bg-secondary/40 my-10 py-14 sm:my-16 sm:py-20">
+    <section id="how" className="bg-secondary/40 py-6 sm:py-8 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={LANDING_REVEAL_VIEWPORT}
         variants={LANDING_REVEAL_GROUP}
-        className="landing-section grid gap-10 lg:grid-cols-[0.8fr_1fr] lg:gap-24"
+        className="landing-section grid gap-8 sm:gap-10 lg:grid-cols-[0.8fr_1fr] lg:gap-24"
       >
         <motion.div variants={LANDING_REVEAL_VARIANTS.default} className="landing-reveal">
           <h2 className="landing-heading whitespace-pre-line">{LANDING_CONTENT.how.title}</h2>

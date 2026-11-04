@@ -9,14 +9,14 @@ export default function OrderLoading() {
       <PageHeaderSkeleton />
 
       <AnimateIn className="space-y-6">
-        <div className="border-border flex flex-wrap items-center justify-between gap-4 border-b pb-6">
-          <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="border-border flex flex-col gap-4 border-b pb-6 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex flex-col gap-3 md:flex-row">
             <Skeleton className="h-28 w-full rounded-xl sm:w-56" />
             <Skeleton className="h-28 w-full rounded-xl sm:w-80" />
           </div>
-          <div className="flex gap-2">
-            <Skeleton className="h-7 w-36 rounded-lg" />
-            <Skeleton className="h-7 w-28 rounded-lg" />
+          <div className="grid gap-2 sm:flex">
+            <Skeleton className="h-10 w-full rounded-lg sm:w-36 xl:h-11" />
+            <Skeleton className="h-10 w-full rounded-lg sm:w-28 xl:h-11" />
           </div>
         </div>
 
@@ -29,8 +29,8 @@ export default function OrderLoading() {
           </div>
         </section>
 
-        <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <LoadingCard className="h-88 overflow-hidden">
+        <div className="grid items-stretch gap-6 xl:grid-cols-2">
+          <LoadingCard className="xl:h-88 overflow-hidden">
             <Skeleton className="mb-5 h-5 w-28" />
             <div className="space-y-4">
               {Array.from({ length: 5 }).map((_, i) => (
@@ -42,7 +42,7 @@ export default function OrderLoading() {
             </div>
           </LoadingCard>
 
-          <LoadingCard className="h-88 overflow-hidden">
+          <LoadingCard className="xl:h-88 overflow-hidden">
             <div className="mb-5 flex items-center justify-between">
               <Skeleton className="h-5 w-20" />
               <Skeleton className="size-8 rounded-lg" />
@@ -75,7 +75,7 @@ export default function OrderLoading() {
             </div>
           </LoadingCard>
 
-          <LoadingCard className="h-80 overflow-hidden">
+          <LoadingCard className="overflow-hidden xl:h-80">
             <Skeleton className="mb-4 h-5 w-28" />
             <div className="space-y-3">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -90,7 +90,7 @@ export default function OrderLoading() {
             </div>
           </LoadingCard>
 
-          <LoadingCard className="h-80 overflow-hidden">
+          <LoadingCard className="overflow-hidden xl:h-80">
             <Skeleton className="mb-5 h-5 w-20" />
             <div className="border-border mb-2 flex justify-between border-b pb-2">
               <Skeleton className="h-3 w-16" />

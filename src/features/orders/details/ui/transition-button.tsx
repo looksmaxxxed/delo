@@ -26,9 +26,10 @@ export function TransitionButton(props: TransitionButtonProps) {
       size={size}
       className={cn(!size && ORDER_ACTION_BUTTON_CLASS_NAME, className)}
       Icon={action.Icon}
+      tooltip={action.label}
       onClick={handleClick}
     >
-      {action.label}
+      <span className="max-w-full truncate">{action.label}</span>
     </Button>
   );
 }

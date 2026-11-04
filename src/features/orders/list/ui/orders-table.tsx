@@ -30,6 +30,7 @@ export function OrdersTable(props: OrdersTableProps) {
       onRowClick={onRowClick}
       onEndReached={onEndReached}
       isLoadingMore={isLoadingMore}
+      className="hidden xl:flex"
     />
   );
 }

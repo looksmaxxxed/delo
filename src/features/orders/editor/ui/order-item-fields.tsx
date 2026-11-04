@@ -22,8 +22,10 @@ export function OrderItemFields(props: OrderItemFieldsProps) {
   }
 
   return (
-    <div className="border-border grid grid-cols-1 items-start gap-2 rounded-xl border p-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto] lg:border-0 lg:p-0 lg:pt-1.5">
-      <FormInput control={control} name={`items.${index}.name`} label="Название" />
+    <div className="border-border grid grid-cols-2 items-start gap-2 rounded-xl border p-3 lg:grid-cols-[1fr_1fr_1fr_auto] lg:border-0 lg:p-0 lg:pt-1.5">
+      <div className="col-span-2 lg:col-span-1">
+        <FormInput control={control} name={`items.${index}.name`} label="Название" />
+      </div>
       <FormInput control={control} name={`items.${index}.description`} label="Описание" />
       <FormInput control={control} name={`items.${index}.price`} type="number" label="Стоимость" />
       <Button
@@ -34,7 +36,7 @@ export function OrderItemFields(props: OrderItemFieldsProps) {
         Icon={DeleteIcon}
         disabled={!canRemove}
         onClick={handleRemove}
-        className="justify-self-end lg:mt-1.5"
+        className="col-span-2 size-10 justify-self-end lg:col-span-1 lg:mt-1.5 xl:size-8"
       />
     </div>
   );

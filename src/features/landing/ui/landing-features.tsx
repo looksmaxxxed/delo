@@ -12,7 +12,7 @@ import { cn } from '@/shared/utils/cn';
 
 export function LandingFeatures() {
   return (
-    <section id="features" className="landing-section py-12 sm:py-20">
+    <section id="features" className="landing-section py-6 sm:py-8 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -26,7 +26,7 @@ export function LandingFeatures() {
           {LANDING_CONTENT.features.title}
         </motion.h2>
       </motion.div>
-      <div className="mt-14 space-y-16 sm:mt-20 sm:space-y-24">
+      <div className="mt-10 space-y-12 sm:mt-14 sm:space-y-16 lg:space-y-20">
         {LANDING_STORIES.map((story, index) => (
           <motion.article
             key={story.id}
@@ -35,7 +35,7 @@ export function LandingFeatures() {
             whileInView="visible"
             viewport={LANDING_REVEAL_VIEWPORT}
             variants={LANDING_REVEAL_GROUP}
-            className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16"
+            className="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16"
           >
             <motion.div
               variants={LANDING_REVEAL_VARIANTS.default}
@@ -44,10 +44,10 @@ export function LandingFeatures() {
               <h3 className="whitespace-pre-line text-3xl font-bold leading-[1.18] tracking-[-0.035em] sm:text-4xl">
                 {story.title}
               </h3>
-              <p className="text-muted-foreground mt-5 text-base leading-relaxed sm:text-lg">
+              <p className="text-muted-foreground mt-4 text-base leading-relaxed sm:mt-5 sm:text-lg">
                 {story.body}
               </p>
-              <p className="mt-5 text-sm font-medium">{story.note}</p>
+              <p className="mt-4 text-sm font-medium sm:mt-5">{story.note}</p>
               <LandingScribble
                 variant="arrow"
                 reveal

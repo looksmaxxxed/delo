@@ -70,6 +70,7 @@ export function FormClientCombobox(props: FormClientComboboxProps) {
         size="lg"
         layer="nested"
         variant="solid"
+        contentLayout="form"
       >
         {createForm}
       </AppDialog>

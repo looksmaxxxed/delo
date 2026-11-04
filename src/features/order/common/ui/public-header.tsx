@@ -22,6 +22,7 @@ export function PublicHeader() {
             mode="icon"
             variant="outline"
             tooltip="Войти"
+            className="size-10 xl:size-11"
           />
           <ThemeToggle />
         </div>

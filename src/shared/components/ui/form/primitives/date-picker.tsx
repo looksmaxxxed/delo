@@ -129,7 +129,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   : 'text-muted-foreground group-hover:text-primary group-focus-visible:text-primary'
               )}
             />
-            <span className="min-w-0 flex-1 truncate pl-2 pr-8">
+            <span className="min-w-0 flex-1 truncate pl-2 pr-11 xl:pr-8">
               {formattedValue || <span className="opacity-0">{label}</span>}
             </span>
           </Popover.Trigger>
@@ -139,7 +139,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
               type="button"
               mode="icon"
               variant="ghost"
-              className="absolute right-1.5 top-1/2 z-20 size-7 -translate-y-1/2"
+              className="absolute right-0.5 top-1/2 z-20 size-10 -translate-y-1/2 xl:right-1.5 xl:size-7"
               tooltip="Сбросить дату"
               Icon={XIcon}
               onClick={handleClearDate}
@@ -166,7 +166,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 'border-border bg-popover text-popover-foreground shadow-xl',
                 'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95',
                 'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
-                'w-[min(100vw-2rem,20rem)] rounded-lg border p-3 duration-100'
+                'w-[min(100vw-1rem,22.5rem)] rounded-lg border p-3 duration-100 xl:w-80'
               )}
             >
               <div className="flex items-start justify-between">
@@ -177,6 +177,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   tooltip="Предыдущий месяц"
                   Icon={ArrowLeftIcon}
                   onClick={handlePreviousMonth}
+                  className="size-10 xl:size-8"
                 />
 
                 <div className="text-center">
@@ -195,6 +196,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                   tooltip="Следующий месяц"
                   Icon={ArrowRightIcon}
                   onClick={handleNextMonth}
+                  className="size-10 xl:size-8"
                 />
               </div>
 
@@ -206,7 +208,7 @@ export const DatePicker = forwardRef<HTMLButtonElement, DatePickerProps>(
                 ))}
               </div>
 
-              <div className="grid grid-cols-7 gap-1.5">
+              <div className="grid grid-cols-7 gap-1 xl:gap-1.5">
                 {calendarDays.map((day) => {
                   const isCurrentMonth = isSameMonth(day, displayMonth);
                   const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;

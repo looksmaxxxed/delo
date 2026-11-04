@@ -9,6 +9,8 @@ import type { OrderListItem } from '@/types/orders';
 import type { OrderStatus } from '@prisma/client';
 import { ORDER_STATUS_FILTER_OPTIONS } from '../constants';
 import { FilterCard } from '@/shared/components/ui/data/filter-card';
+import { ResponsiveCardList } from '@/shared/components/ui/data/responsive-card-list';
+import { OrderCard } from './order-card';
 import { OrdersTable } from './orders-table';
 
 type OrdersListViewProps = {
@@ -58,6 +60,16 @@ export function OrdersListView(props: OrdersListViewProps) {
   const statusOption =
     ORDER_STATUS_FILTER_OPTIONS.find((opt) => opt.value === statusFilter) ?? null;
 
+  function getOrderKey(order: OrderListItem) {
+    return order.id;
+  }
+
+  function renderOrder(order: OrderListItem) {
+    return <OrderCard order={order} />;
+  }
+
+  const loadMore = hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined;
+
   return (
     <AnimateIn className="flex flex-1 flex-col gap-4">
       <FilterCard
@@ -66,22 +78,33 @@ export function OrdersListView(props: OrdersListViewProps) {
         onBtnAction={onCreate}
         btnLabel="Новый заказ"
         inputLabel="Поиск по заказам..."
+        hasActiveFilters={!!statusFilter}
       >
         <SelectInput
           value={statusOption}
           onValueChange={handleStatusChange}
           options={ORDER_STATUS_FILTER_OPTIONS}
-          className="bg-surface/30 min-w-44 backdrop-blur-xl data-[size=default]:h-11"
+          className="bg-surface/30 w-full backdrop-blur-xl data-[size=default]:h-11 lg:w-auto lg:min-w-44"
           label="Фильтр по статусу"
         />
       </FilterCard>
+
+      <ResponsiveCardList
+        items={items}
+        emptyMessage={searchFilter || statusFilter ? 'Ничего не найдено' : 'Заказов пока нет'}
+        isLoading={isRefreshing}
+        isLoadingMore={isLoadingMore}
+        getItemKey={getOrderKey}
+        renderItem={renderOrder}
+        onEndReached={loadMore}
+      />
 
       <OrdersTable
         items={items}
         emptyMessage={searchFilter || statusFilter ? 'Ничего не найдено' : 'Заказов пока нет'}
         isLoading={isRefreshing}
         onRowClick={onSelectOrder}
-        onEndReached={hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined}
+        onEndReached={loadMore}
         isLoadingMore={isLoadingMore}
       />
 
@@ -93,6 +116,7 @@ export function OrdersListView(props: OrdersListViewProps) {
         Icon={FileText}
         size="lg"
         variant="solid"
+        contentLayout="form"
       >
         {createForm}
       </AppDialog>

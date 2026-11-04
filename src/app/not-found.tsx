@@ -16,7 +16,7 @@ export default function NotFound() {
       <PublicHeader />
       <main className="mx-auto flex w-full max-w-5xl flex-1 items-center px-4 py-12 sm:px-6 sm:py-20">
         <AnimateIn variant="zoom" className="w-full">
-          <section className="surface-shadow border-border bg-secondary/30 dark:bg-surface relative isolate overflow-hidden rounded-3xl border p-7 sm:p-10 lg:p-14">
+          <section className="surface-shadow border-border bg-secondary/30 dark:bg-surface relative isolate overflow-hidden rounded-3xl border p-5 sm:p-10 lg:p-14">
             <span className="text-primary/5 pointer-events-none absolute -bottom-16 -right-4 -z-10 text-[12rem] font-black leading-none sm:text-[18rem]">
               404
             </span>
@@ -27,10 +27,7 @@ export default function NotFound() {
               </div>
 
               <div className="max-w-2xl">
-                <p className="text-primary text-sm font-semibold uppercase tracking-[0.2em]">
-                  Ошибка 404
-                </p>
-                <h1 className="text-foreground mt-3 text-3xl font-bold tracking-tight sm:text-5xl">
+                <h1 className="text-foreground text-3xl font-bold tracking-tight sm:text-5xl">
                   Страница не найдена
                 </h1>
                 <p className="text-muted-foreground mt-4 max-w-xl text-base leading-7 sm:text-lg">
@@ -41,7 +38,12 @@ export default function NotFound() {
             </div>
 
             <div className="mt-8 flex justify-end">
-              <Button render={<Link href="/" />} nativeButton={false} Icon={HomeIcon}>
+              <Button
+                render={<Link href="/" />}
+                nativeButton={false}
+                Icon={HomeIcon}
+                className="h-10 xl:h-11"
+              >
                 На главную
               </Button>
             </div>

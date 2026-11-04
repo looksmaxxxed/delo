@@ -10,9 +10,9 @@ type DetailItemProps = {
 export function DetailItem(props: DetailItemProps) {
   const { label, children, className } = props;
   return (
-    <div className={cn(className)}>
+    <div className={cn('min-w-0', className)}>
       <dt className="text-muted-foreground text-xs font-bold">{label}</dt>
-      <dd className="font-medium">{children}</dd>
+      <dd className="min-w-0 break-words font-medium">{children}</dd>
     </div>
   );
 }

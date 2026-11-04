@@ -54,7 +54,7 @@ export function BusinessDynamicsChart(props: BusinessDynamicsChartProps) {
       {!hasData ? (
         <ChartEmptyState />
       ) : (
-        <ChartContainer className="aspect-auto h-72 w-full sm:h-80">
+        <ChartContainer className="aspect-auto h-64 w-full sm:h-80">
           <LineChart
             key={chartKey}
             data={data}

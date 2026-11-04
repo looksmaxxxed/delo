@@ -15,6 +15,7 @@ type AppDialogProps = {
   size?: 'md' | 'lg';
   layer?: 'base' | 'nested';
   variant?: 'default' | 'solid';
+  contentLayout?: 'scroll' | 'form';
 };
 
 export function AppDialog(props: AppDialogProps) {
@@ -28,6 +29,7 @@ export function AppDialog(props: AppDialogProps) {
     size = 'md',
     layer = 'base',
     variant = 'default',
+    contentLayout = 'scroll',
   } = props;
   const layerClass = layer === 'nested' ? 'z-[60]' : 'z-[40]';
 
@@ -42,22 +44,25 @@ export function AppDialog(props: AppDialogProps) {
           )}
         />
         <Dialog.Viewport
-          className={cn('fixed inset-0 flex items-center justify-center p-4', layerClass)}
+          className={cn(
+            'fixed inset-0 flex items-end justify-center p-0 sm:items-center sm:p-4',
+            layerClass
+          )}
         >
           <Dialog.Popup
             className={cn(
-              'data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 flex max-h-[calc(100svh-2rem)] w-full flex-col overflow-hidden rounded-xl border shadow-lg duration-200',
-              variant === 'solid' ? 'border-border bg-surface rounded-2xl' : 'glass',
+              'data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 sm:data-closed:zoom-out-95 sm:data-open:zoom-in-95 flex max-h-[calc(100svh-0.5rem)] w-full flex-col overflow-hidden rounded-b-none rounded-t-2xl border shadow-lg duration-200 sm:max-h-[calc(100svh-2rem)] sm:rounded-xl',
+              variant === 'solid' ? 'border-border bg-surface' : 'glass',
               size === 'lg' ? 'max-w-4xl' : 'max-w-lg'
             )}
           >
-            <div className="border-border border-l-primary flex shrink-0 items-center justify-between gap-4 border-b border-l-4 p-5">
+            <div className="border-border border-l-primary flex shrink-0 items-center justify-between gap-3 border-b border-l-4 p-4 sm:gap-4 sm:p-5">
               <div className="flex min-w-0 items-center gap-4">
-                <div className="border-primary/20 bg-primary/10 text-primary flex size-12 shrink-0 items-center justify-center rounded-xl border">
+                <div className="border-primary/20 bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-xl border sm:size-12">
                   <Icon size={22} />
                 </div>
                 <div className="min-w-0">
-                  <Dialog.Title className="text-xl font-bold">{title}</Dialog.Title>
+                  <Dialog.Title className="text-lg font-bold sm:text-xl">{title}</Dialog.Title>
                   {description && (
                     <Dialog.Description className="text-muted-foreground mt-1 text-sm">
                       {description}
@@ -65,11 +70,19 @@ export function AppDialog(props: AppDialogProps) {
                   )}
                 </div>
               </div>
-              <Dialog.Close className="text-muted-foreground hover:text-foreground shrink-0 cursor-pointer rounded p-1 transition-colors">
+              <Dialog.Close className="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg transition-colors focus-visible:ring-2 xl:size-11">
                 <XIcon size={24} />
               </Dialog.Close>
             </div>
-            <div className="overflow-y-auto p-5">{children}</div>
+            <div
+              className={cn(
+                contentLayout === 'form'
+                  ? 'flex min-h-0 flex-1 flex-col overflow-hidden p-0 sm:block sm:overflow-y-auto sm:p-5'
+                  : 'overflow-y-auto overscroll-contain px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 sm:p-5'
+              )}
+            >
+              {children}
+            </div>
           </Dialog.Popup>
         </Dialog.Viewport>
       </Dialog.Portal>

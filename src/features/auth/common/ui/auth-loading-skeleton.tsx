@@ -30,7 +30,7 @@ export function AuthLoadingSkeleton(props: AuthLoadingSkeletonProps) {
             <Skeleton className="h-4 w-4/5" />
           </div>
         </div>
-        {showButton && <Skeleton className="h-13 w-full rounded-lg" />}
+        {showButton && <Skeleton className="xl:h-13 h-11 w-full rounded-lg" />}
       </div>
     );
   }
@@ -64,7 +64,7 @@ export function AuthLoadingSkeleton(props: AuthLoadingSkeletonProps) {
         )}
       </div>
 
-      {showButton && <Skeleton className="h-13 w-full rounded-lg" />}
+      {showButton && <Skeleton className="xl:h-13 h-11 w-full rounded-lg" />}
     </div>
   );
 }

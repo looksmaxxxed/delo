@@ -14,7 +14,7 @@ export function PublicPayments(props: PublicPaymentsProps) {
           <span>Сумма</span>
           <span className="text-right">Дата</span>
         </div>
-        <div className="min-h-0 w-full flex-1 overflow-y-auto">
+        <div className="min-h-0 w-full flex-1">
           <div className="space-y-2">
             {payments.map((payment) => (
               <PublicPaymentItem key={payment.id} payment={payment} />

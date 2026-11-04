@@ -11,8 +11,8 @@ export function PublicOrderView(props: PublicOrderViewProps) {
     <AnimateIn className="space-y-6">
       {hero}
       {statusProgress}
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
-        <div className="grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-6">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.75fr)]">
+        <div className="grid gap-6 xl:h-full xl:min-h-0 xl:grid-rows-[minmax(0,1fr)_auto]">
           {workItems}
           {workTerms}
         </div>

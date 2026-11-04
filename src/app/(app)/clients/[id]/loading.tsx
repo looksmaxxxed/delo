@@ -32,7 +32,7 @@ export default function ClientLoading() {
         </div>
 
         <div className="flex justify-end">
-          <Skeleton className="h-9 w-44 rounded-lg" />
+          <Skeleton className="h-10 w-44 rounded-lg xl:h-11" />
         </div>
 
         <div className="border-border bg-surface min-h-48 flex-1 rounded-2xl border p-4">

@@ -12,12 +12,7 @@ export function OrderStatusPanelCard(props: OrderStatusPanelCardProps) {
   const { title, children, className, contentClassName } = props;
 
   return (
-    <div
-      className={cn(
-        'border-border bg-surface/30 w-full rounded-xl border p-3 sm:w-auto',
-        className
-      )}
-    >
+    <div className={cn('border-border bg-surface/30 w-full rounded-xl border p-3', className)}>
       <p className="text-muted-foreground text-sm font-medium">{title}</p>
       <div className={cn('mt-3', contentClassName)}>{children}</div>
     </div>

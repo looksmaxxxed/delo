@@ -9,7 +9,7 @@ import {
 
 export function LandingDashboard() {
   return (
-    <section id="dashboard" className="bg-secondary/40 my-10 py-14 sm:my-16 sm:py-20">
+    <section id="dashboard" className="bg-secondary/40 py-6 sm:py-8 lg:py-10">
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -17,7 +17,7 @@ export function LandingDashboard() {
         variants={LANDING_REVEAL_GROUP}
         className="landing-section"
       >
-        <div className="grid items-end gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+        <div className="grid items-end gap-6 sm:gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
           <motion.div variants={LANDING_REVEAL_VARIANTS.default} className="landing-reveal">
             <h2 className="landing-heading whitespace-pre-line">{LANDING_DASHBOARD.title}</h2>
           </motion.div>
@@ -31,7 +31,7 @@ export function LandingDashboard() {
 
         <motion.figure
           variants={LANDING_REVEAL_VARIANTS.visual}
-          className="landing-reveal border-foreground/15 bg-surface surface-shadow mt-10 overflow-hidden rounded-xl border sm:mt-14 sm:rounded-2xl"
+          className="landing-reveal border-foreground/15 bg-surface surface-shadow mt-8 overflow-hidden rounded-xl border sm:mt-10 sm:rounded-2xl lg:mt-12"
         >
           <Image
             src={LANDING_DASHBOARD.image}
@@ -43,7 +43,7 @@ export function LandingDashboard() {
 
         <motion.ul
           variants={LANDING_REVEAL_GROUP}
-          className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 lg:grid-cols-4"
         >
           {LANDING_DASHBOARD.points.map((point) => (
             <motion.li

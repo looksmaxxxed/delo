@@ -49,7 +49,7 @@ export function LoginFormView(props: LoginFormViewProps) {
 
         <Button
           type="submit"
-          className="h-13 w-full rounded-xl text-sm font-bold"
+          className="xl:h-13 h-11 w-full rounded-xl text-sm font-semibold xl:font-bold"
           isLoading={isLoading}
           disabled={isLocked}
           Icon={isLocked ? undefined : ArrowRightIcon}
