@@ -2,7 +2,13 @@
 
 import type { ChangeEvent, ReactNode } from 'react';
 import type { Control, FieldPath, FieldValues } from 'react-hook-form';
-import { FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form/form';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/shared/components/ui/form/form';
 import { Checkbox } from '@/shared/components/ui/form/primitives/checkbox';
 import { cn } from '@/shared/utils/cn';
 
@@ -44,7 +50,14 @@ export function FormCheckbox<T extends FieldValues>(props: FormCheckboxProps<T>)
                   onChange={handleChange}
                 />
               </FormControl>
-              <span>{children}</span>
+              <FormLabel
+                className={cn(
+                  'inline cursor-pointer text-sm font-normal leading-5',
+                  disabled && 'cursor-not-allowed'
+                )}
+              >
+                {children}
+              </FormLabel>
             </div>
             <FormMessage />
           </FormItem>
