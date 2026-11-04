@@ -55,15 +55,14 @@ export function CookieConsent(props: CookieConsentProps) {
     <>
       {showBanner && (
         <section
-          aria-label="Cookies и аналитика"
+          aria-label="Настройки cookies"
           className="surface-shadow border-border bg-surface text-foreground sm:w-110 fixed inset-x-4 bottom-4 z-30 max-h-[calc(100svh-2rem)] overflow-y-auto rounded-2xl border sm:inset-x-auto sm:bottom-6 sm:right-6"
         >
           <div className="p-5 sm:p-6">
-            <h2 className="text-base font-semibold tracking-tight">Cookies и приватность</h2>
+            <h2 className="text-base font-semibold tracking-tight">Мы используем cookies</h2>
             <p className="text-muted-foreground mt-3 text-sm leading-6">
-              Необходимые cookies сохраняют вход и настройки. С вашего разрешения подключаем Яндекс
-              Метрику и Vercel Speed Insights для анализа посещений, источников переходов и действий
-              в сервисе. Без аналитики все функции доступны.
+              Необходимые cookies помогают сайту работать и сохранять настройки. Дополнительные
+              cookies помогают улучшать сервис.
             </p>
             <Link
               href={LEGAL_PRIVACY_PATH}
@@ -79,14 +78,14 @@ export function CookieConsent(props: CookieConsentProps) {
               onClick={rejectAnalytics}
               className="border-border bg-surface dark:border-border h-10 px-2.5 text-sm xl:h-11 xl:px-3"
             >
-              Только необходимые
+              Отклонить
             </Button>
             <Button
               type="button"
               onClick={acceptAnalytics}
               className="h-10 px-2.5 text-sm xl:h-11 xl:px-3"
             >
-              Разрешить аналитику
+              Принять
             </Button>
           </div>
         </section>
