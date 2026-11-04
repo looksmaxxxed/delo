@@ -2,10 +2,13 @@ import type { ReactNode } from 'react';
 import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 import type { PublicOrderSlots } from '../types';
 
-type PublicOrderViewProps = Omit<PublicOrderSlots, 'payments'> & { paymentInfo: ReactNode };
+type PublicOrderViewProps = Omit<PublicOrderSlots, 'payments'> & {
+  paymentInfo: ReactNode;
+  confirmation: ReactNode;
+};
 
 export function PublicOrderView(props: PublicOrderViewProps) {
-  const { hero, statusProgress, workItems, workTerms, paymentInfo } = props;
+  const { hero, statusProgress, workItems, workTerms, paymentInfo, confirmation } = props;
 
   return (
     <AnimateIn className="space-y-6">
@@ -18,6 +21,7 @@ export function PublicOrderView(props: PublicOrderViewProps) {
         </div>
         <aside className="h-full">{paymentInfo}</aside>
       </div>
+      {confirmation}
     </AnimateIn>
   );
 }

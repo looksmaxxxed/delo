@@ -1,4 +1,5 @@
 export const ROOT_ROUTE = '/';
+export const DEMO_ORDER_ROUTE = '/order/demo';
 export const DASHBOARD_ROUTE = '/dashboard';
 export const PROFILE_ROUTE = '/profile';
 export const LOGIN_ROUTE = '/login';

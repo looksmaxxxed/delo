@@ -10,7 +10,7 @@ export function ConfirmOrderButton(props: ConfirmOrderButtonProps) {
 
   return (
     <Button
-      className="h-10 w-full xl:h-11"
+      className="h-11 w-full sm:w-auto"
       Icon={CircleCheckIcon}
       isLoading={isLoading}
       onClick={onConfirm}

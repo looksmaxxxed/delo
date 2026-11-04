@@ -1,4 +1,7 @@
-export const SEO_SITE_URL = 'https://delo-doc.ru';
+import { DEMO_ORDER_ROUTE } from './routes';
+
+export const SEO_SITE_URL = 'https://www.delo-doc.ru';
+export const SEO_DEMO_ORDER_URL = `${SEO_SITE_URL}${DEMO_ORDER_ROUTE}`;
 export const SEO_SITE_HOST = new URL(SEO_SITE_URL).hostname;
 export const SEO_SITE_HOST_PATTERN = SEO_SITE_HOST.replace(/\./g, '\\.');
 

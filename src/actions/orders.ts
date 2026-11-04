@@ -212,6 +212,13 @@ export async function createOrder(data: OrderInput): Promise<{ error: string } |
 
   const { data: parsed, success, error } = OrderSchema.safeParse(data);
   if (!success) return { error: getValidationErrorMessage(error) };
+
+  const client = await db.client.findUnique({
+    where: { id: parsed.clientId, userId: session.user.id },
+    select: { id: true },
+  });
+  if (!client) return { error: 'Клиент не найден' };
+
   const price = parsed.items.reduce((sum, item) => sum + item.price, 0);
 
   const order = await db.order.create({
@@ -255,6 +262,13 @@ export async function updateOrder(id: string, data: OrderInput): Promise<{ error
     include: { items: true },
   });
   if (!existing) return { error: 'Заказ не найден' };
+
+  const client = await db.client.findUnique({
+    where: { id: parsed.clientId, userId: session.user.id },
+    select: { id: true },
+  });
+  if (!client) return { error: 'Клиент не найден' };
+
   const price = parsed.items.reduce((sum, item) => sum + item.price, 0);
   const shouldResetTerms =
     existing.isTermsAccepted && haveOrderTermsChanged(existing, parsed, price);
