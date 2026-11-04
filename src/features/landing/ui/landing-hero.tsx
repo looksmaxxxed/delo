@@ -1,5 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import * as motion from 'motion/react-client';
+import { Button } from '@/shared/components/ui/actions/button';
+import { EyeIcon } from '@/shared/components/icons/eye';
+import { DEMO_ORDER_ROUTE } from '@/shared/constants/routes';
 import {
   LANDING_CONTENT,
   LANDING_DOODLES,
@@ -109,7 +113,18 @@ export function LandingHero() {
           variants={LANDING_REVEAL_VARIANTS.default}
           className="landing-reveal mt-6 flex flex-col items-center gap-3 sm:mt-8"
         >
-          <LandingCta href="/register">{LANDING_CONTENT.hero.cta}</LandingCta>
+          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row">
+            <LandingCta href="/register">{LANDING_CONTENT.hero.cta}</LandingCta>
+            <Button
+              render={<Link href={DEMO_ORDER_ROUTE} />}
+              nativeButton={false}
+              variant="outline"
+              Icon={EyeIcon}
+              className="h-12 gap-3 px-6 text-sm"
+            >
+              {LANDING_CONTENT.hero.demoCta}
+            </Button>
+          </div>
           <p className="text-sm font-medium">{LANDING_CONTENT.pricingNotice}</p>
         </motion.div>
         <motion.div
