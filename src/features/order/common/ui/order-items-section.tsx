@@ -25,7 +25,7 @@ export function OrderItemsSection(props: OrderItemsSectionProps) {
             <span>Наименование</span>
             <span className="text-right">Сумма</span>
           </div>
-          <div className="max-h-80 min-h-0 overflow-y-auto pr-1 lg:max-h-none lg:flex-1">
+          <div className="min-h-0 flex-1">
             <div className="divide-border divide-y">
               {items.map((item) => (
                 <div key={item.id} className="grid grid-cols-[1fr_auto] gap-x-4 py-3">

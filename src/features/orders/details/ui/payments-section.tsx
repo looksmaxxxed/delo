@@ -18,7 +18,7 @@ export function PaymentsSection(props: PaymentsSectionProps) {
   const progressValue = Math.min(totalPaid, orderPrice);
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <div className="flex h-full flex-col xl:min-h-0">
       <div className="shrink-0 space-y-3">
         <dl className="grid grid-cols-2 gap-6">
           <div>
@@ -47,9 +47,9 @@ export function PaymentsSection(props: PaymentsSectionProps) {
         </div>
       </div>
 
-      <div className="border-border mt-4 flex min-h-0 flex-1 flex-col border-t">
+      <div className="border-border mt-4 flex flex-1 flex-col border-t xl:min-h-0">
         <EmptyList items={payments} message="Платежей пока нет">
-          <div className="flex min-h-0 flex-1 flex-col">
+          <div className="flex flex-1 flex-col xl:min-h-0">
             <div className="shrink-0 pr-2">
               <table className="w-full table-fixed">
                 <colgroup>
@@ -67,7 +67,7 @@ export function PaymentsSection(props: PaymentsSectionProps) {
               </table>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+            <div className="xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-2">
               <table className="w-full table-fixed">
                 <colgroup>
                   <col />

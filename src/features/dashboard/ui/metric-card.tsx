@@ -22,7 +22,7 @@ export function MetricCard(props: MetricCardProps) {
         : Minus;
 
   return (
-    <div className="surface-shadow border-border bg-surface relative overflow-hidden rounded-2xl border p-5">
+    <div className="surface-shadow border-border bg-surface relative overflow-hidden rounded-2xl border p-4 sm:p-5">
       <div className="bg-primary/8 absolute -right-10 -top-10 size-28 rounded-full blur-2xl" />
       <div className="relative flex items-start justify-between gap-3">
         <div>

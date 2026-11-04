@@ -21,7 +21,7 @@ export function DeadlinesList(props: DeadlinesListProps) {
           Все заказы
         </AnimatedLink>
       }
-      className="p-6"
+      className="p-4 sm:p-6"
     >
       <EmptyList items={deadlines} message="Срочных заказов сейчас нет">
         <ul>

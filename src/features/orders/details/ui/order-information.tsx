@@ -17,9 +17,9 @@ export function OrderInformation(props: OrderInformationProps) {
     <SectionCard
       title="Детали заказа"
       Icon={FileText}
-      className="h-88 flex min-h-0 flex-col overflow-hidden p-6"
+      className="xl:h-88 flex flex-col p-4 sm:p-6 xl:min-h-0 xl:overflow-hidden"
     >
-      <dl className="flex min-h-0 flex-1 flex-col gap-4">
+      <dl className="flex min-h-0 flex-1 flex-col gap-4 text-sm xl:text-base">
         <DetailItem
           label="Клиент"
           className="flex items-start justify-between gap-6 [&_dd]:min-w-0 [&_dd]:text-right [&_dt]:shrink-0 [&_dt]:text-sm [&_dt]:font-normal"
@@ -56,7 +56,7 @@ export function OrderInformation(props: OrderInformationProps) {
         {order.description && (
           <DetailItem
             label="Описание"
-            className="border-border flex min-h-0 flex-1 flex-col border-t pt-4 [&_dd]:mt-2 [&_dd]:min-h-0 [&_dd]:flex-1 [&_dd]:overflow-y-auto [&_dd]:pr-2 [&_dd]:leading-relaxed [&_dt]:shrink-0 [&_dt]:text-sm [&_dt]:font-normal"
+            className="border-border flex flex-col border-t pt-4 xl:min-h-0 xl:flex-1 [&_dd]:mt-2 [&_dd]:leading-relaxed xl:[&_dd]:min-h-0 xl:[&_dd]:flex-1 xl:[&_dd]:overflow-y-auto xl:[&_dd]:pr-2 [&_dt]:shrink-0 [&_dt]:text-sm [&_dt]:font-normal"
           >
             {order.description}
           </DetailItem>

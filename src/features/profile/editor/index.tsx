@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { UserRound } from 'lucide-react';
 import { updateProfile, deleteProfileImage, uploadProfileImage } from '@/actions/profile';
 import { useConfirmation } from '@/shared/components/providers/confirmation/confirmation.hook';
 import { DeleteIcon } from '@/shared/components/icons/delete';
@@ -16,7 +17,8 @@ import { Form } from '@/shared/components/ui/form/form';
 import { FormInput } from '@/shared/components/ui/form/fields/form-input';
 import { FormTextarea } from '@/shared/components/ui/form/fields/form-textarea';
 import { Button } from '@/shared/components/ui/actions/button';
-import { ArrowRightIcon } from '@/shared/components/icons/arrow-right';
+import { SquarePenIcon } from '@/shared/components/icons/square-pen';
+import { SectionCard } from '@/shared/components/ui/data/section-card';
 import { profileToFormValues } from './utils';
 import { ProfileImageUpload } from './ui/profile-image-upload';
 
@@ -80,26 +82,42 @@ export function ProfileEditor(props: ProfileEditorProps) {
   const [executeUpdate, isUpdating] = useAsyncAction(updateProfileImmediately);
 
   return (
-    <div className="surface-shadow border-border from-primary/10 via-card/60 to-card/60 bg-linear-to-br rounded-2xl border p-7">
+    <div className="surface-shadow xl:border-border xl:from-primary/10 xl:via-card/60 xl:to-card/60 xl:bg-linear-to-br space-y-4 max-xl:shadow-none sm:space-y-6 xl:space-y-0 xl:rounded-2xl xl:border xl:p-7">
       <ProfileImageUpload
         image={image}
         name={profile.name}
+        email={profile.email}
+        emailVerified={!!profile.emailVerified}
+        createdAt={profile.createdAt}
         isUploading={isUploading}
         onUpload={executeUpload}
         onDelete={handleDeleteClick}
       />
 
-      <div className="border-border mt-7 border-t pt-7">
-        <Form {...form} onSubmit={handleSubmit(executeUpdate)} className="space-y-5">
+      <SectionCard
+        title="Личные данные"
+        Icon={UserRound}
+        className="bg-surface/70 xl:border-border p-4 sm:p-6 xl:mt-7 xl:rounded-none xl:border-0 xl:border-t xl:bg-transparent xl:p-0 xl:pt-7 xl:shadow-none xl:dark:bg-transparent xl:[&>div:first-child]:hidden"
+      >
+        <Form
+          {...form}
+          onSubmit={handleSubmit(executeUpdate)}
+          className="space-y-5 [&_textarea]:h-36 xl:[&_textarea]:h-auto"
+        >
           <FormInput control={control} name="name" label="Имя" autoComplete="name" />
           <FormTextarea control={control} name="workTerms" label="Условия работы" rows={7} />
           <div className="flex justify-end">
-            <Button type="submit" Icon={ArrowRightIcon} isLoading={isUpdating}>
+            <Button
+              type="submit"
+              Icon={SquarePenIcon}
+              isLoading={isUpdating}
+              className="h-10 xl:h-11"
+            >
               Сохранить изменения
             </Button>
           </div>
         </Form>
-      </div>
+      </SectionCard>
     </div>
   );
 }

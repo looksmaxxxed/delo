@@ -18,7 +18,7 @@ export function LandingFinalCta() {
       whileInView="visible"
       viewport={LANDING_REVEAL_VIEWPORT}
       variants={LANDING_REVEAL_GROUP}
-      className="landing-section bg-background relative isolate overflow-hidden pb-20 pt-12 text-center sm:pb-28 sm:pt-16"
+      className="landing-section bg-background relative isolate overflow-hidden pb-16 pt-6 text-center sm:pb-20 sm:pt-8 lg:pb-24 lg:pt-10"
     >
       <motion.div
         aria-hidden

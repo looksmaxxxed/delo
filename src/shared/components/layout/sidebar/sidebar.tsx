@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useSyncExternalStore } from 'react';
+import { useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
 import { PanelLeftCloseIcon } from '@/shared/components/icons/panel-left-close';
@@ -17,32 +17,9 @@ type AppSidebarProps = {
   defaultCollapsed: boolean;
 };
 
-const MOBILE_SIDEBAR_QUERY = '(max-width: 639px)';
-
-function subscribeToMobileSidebar(onStoreChange: () => void) {
-  const mediaQuery = window.matchMedia(MOBILE_SIDEBAR_QUERY);
-  mediaQuery.addEventListener('change', onStoreChange);
-
-  return () => mediaQuery.removeEventListener('change', onStoreChange);
-}
-
-function getMobileSidebarSnapshot() {
-  return window.matchMedia(MOBILE_SIDEBAR_QUERY).matches;
-}
-
-function getServerMobileSidebarSnapshot() {
-  return false;
-}
-
 export function AppSidebar(props: AppSidebarProps) {
   const { defaultCollapsed } = props;
   const [collapsed, setCollapsed] = useCookieStorage(SIDEBAR_COOKIE_KEY, defaultCollapsed);
-  const isMobile = useSyncExternalStore(
-    subscribeToMobileSidebar,
-    getMobileSidebarSnapshot,
-    getServerMobileSidebarSnapshot
-  );
-  const isCollapsed = collapsed || isMobile;
   const pathname = usePathname();
 
   const toggle = useCallback(() => {
@@ -51,29 +28,29 @@ export function AppSidebar(props: AppSidebarProps) {
 
   return (
     <motion.aside
-      animate={{ width: isCollapsed ? 72 : 220 }}
-      className="max-sm:w-18! relative flex shrink-0 flex-col gap-4 transition-colors"
+      animate={{ width: collapsed ? 72 : 220 }}
+      className="relative hidden shrink-0 flex-col gap-4 transition-colors xl:flex"
       initial={false}
       transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
       <div
         className={cn(
           'surface-shadow bg-surface border-sidebar-border min-h-20.5 relative flex shrink-0 items-center gap-3 rounded-2xl border px-4 py-3 sm:px-5',
-          isCollapsed && 'justify-center'
+          collapsed && 'justify-center'
         )}
       >
-        <BrandLogo compact={isCollapsed} />
+        <BrandLogo compact={collapsed} />
       </div>
 
       <nav className="surface-shadow bg-surface border-sidebar-border flex flex-1 flex-col gap-1 rounded-2xl border py-3">
         {Object.values(NAV_ITEMS)
           .filter((item) => !item.isDisabled)
           .map((item) => (
-            <SidebarNavItem key={item.href} {...item} collapsed={isCollapsed} pathname={pathname} />
+            <SidebarNavItem key={item.href} {...item} collapsed={collapsed} pathname={pathname} />
           ))}
       </nav>
 
-      <div className="surface-shadow bg-surface border-sidebar-border rounded-2xl border p-2 max-sm:hidden">
+      <div className="surface-shadow bg-surface border-sidebar-border rounded-2xl border p-2">
         <Button
           Icon={collapsed ? PanelLeftOpenIcon : PanelLeftCloseIcon}
           className="text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-11 w-full rounded-xl border-none bg-transparent"

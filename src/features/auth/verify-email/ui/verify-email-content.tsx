@@ -29,7 +29,7 @@ export function VerifyEmailView(props: VerifyEmailViewProps) {
       {displayError && (
         <Button
           type="button"
-          className="h-13 w-full rounded-lg text-base font-semibold"
+          className="xl:h-13 h-11 w-full rounded-lg text-sm font-semibold xl:text-base"
           Icon={ArrowRightIcon}
           onClick={onOpenLogin}
         >

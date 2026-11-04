@@ -24,16 +24,16 @@ export default function DashboardLoading() {
         ))}
       </div>
 
-      <LoadingCard className="h-132 p-6">
+      <LoadingCard className="h-104 sm:h-132 p-4 sm:p-6">
         <Skeleton className="h-7 w-48" />
-        <Skeleton className="mt-8 h-96 w-full rounded-xl" />
+        <Skeleton className="mt-8 h-72 w-full rounded-xl sm:h-96" />
       </LoadingCard>
 
       <div className="grid gap-6 xl:grid-cols-2">
         {Array.from({ length: 2 }).map((_, index) => (
-          <LoadingCard key={index} className="h-88 p-6">
+          <LoadingCard key={index} className="sm:h-88 h-80 p-4 sm:p-6">
             <Skeleton className="h-7 w-40" />
-            <Skeleton className="mt-8 h-64 w-full rounded-xl" />
+            <Skeleton className="mt-8 h-56 w-full rounded-xl sm:h-64" />
           </LoadingCard>
         ))}
       </div>

@@ -14,7 +14,7 @@ export function ActivityLog(props: ActivityLogProps) {
 
   return (
     <EmptyList items={activities} message="Нет записей">
-      <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex flex-1 flex-col xl:min-h-0">
         <div className="shrink-0 pr-2">
           <table className="w-full table-fixed">
             <colgroup>
@@ -30,7 +30,7 @@ export function ActivityLog(props: ActivityLogProps) {
           </table>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+        <div className="xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-2">
           <table className="w-full table-fixed">
             <colgroup>
               <col />

@@ -3,20 +3,17 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { OrderLinkActions } from './order-link-actions';
-import { OrderStatusBadge } from '@/features/orders/common/ui/order-status-badge';
 import { OrderStatusPanelCard } from './order-status-panel-card';
 import { TransitionButton } from './transition-button';
 import { Button } from '@/shared/components/ui/actions/button';
 import { DownloadButton } from '@/shared/components/ui/actions/download-button';
-import { ArrowRightIcon } from '@/shared/components/icons/arrow-right';
 import { DeleteIcon } from '@/shared/components/icons/delete';
 import { DownloadIcon } from '@/shared/components/icons/download';
-import type { OrderStatus } from '@prisma/client';
+import { SquarePenIcon } from '@/shared/components/icons/square-pen';
 import { ORDER_ACTION_BUTTON_CLASS_NAME } from '../constants';
 import type { OrderTransitionAction } from '../types';
 
 type OrderStatusPanelProps = {
-  currentStatus: OrderStatus;
   publicOrderUrl: string;
   latestReadyReportId: string | null;
   canEditOrder: boolean;
@@ -28,7 +25,6 @@ type OrderStatusPanelProps = {
 
 export function OrderStatusPanel(props: OrderStatusPanelProps) {
   const {
-    currentStatus,
     publicOrderUrl,
     latestReadyReportId,
     canEditOrder,
@@ -39,37 +35,31 @@ export function OrderStatusPanel(props: OrderStatusPanelProps) {
   } = props;
 
   return (
-    <div className="border-border flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+    <div className="border-border flex flex-col gap-4 border-b pb-6 xl:flex-row xl:items-center xl:justify-between">
+      {actions.length > 0 && (
         <OrderStatusPanelCard
-          title="Текущий статус"
-          className="sm:min-w-45"
+          title="Доступные действия"
+          className="md:w-auto md:min-w-80"
           contentClassName="mt-4"
         >
-          <OrderStatusBadge status={currentStatus} />
+          <div className="grid auto-cols-fr grid-flow-col gap-2 sm:flex sm:flex-nowrap sm:items-center">
+            {actions.map((action) => (
+              <TransitionButton
+                key={action.targetStatus}
+                action={action}
+                onTransition={onTransition}
+              />
+            ))}
+          </div>
         </OrderStatusPanelCard>
+      )}
 
-        {actions.length > 0 && (
-          <OrderStatusPanelCard
-            title="Доступные действия"
-            className="sm:min-w-80"
-            contentClassName="mt-4"
-          >
-            <div className="flex flex-wrap items-center gap-2">
-              {actions.map((action) => (
-                <TransitionButton
-                  key={action.targetStatus}
-                  action={action}
-                  onTransition={onTransition}
-                />
-              ))}
-            </div>
-          </OrderStatusPanelCard>
-        )}
-      </div>
-
-      <OrderStatusPanelCard title="Управление заказом" contentClassName="mt-4">
-        <div className="flex flex-wrap items-center gap-2">
+      <OrderStatusPanelCard
+        title="Управление заказом"
+        className="xl:w-auto"
+        contentClassName="mt-4"
+      >
+        <div className="grid auto-cols-fr grid-flow-col gap-2 sm:flex sm:flex-nowrap sm:items-center">
           <OrderLinkActions
             publicOrderUrl={publicOrderUrl}
             className={ORDER_ACTION_BUTTON_CLASS_NAME}
@@ -81,8 +71,10 @@ export function OrderStatusPanel(props: OrderStatusPanelProps) {
               variant="outline"
               className={ORDER_ACTION_BUTTON_CLASS_NAME}
               Icon={DownloadIcon}
+              tooltip="Скачать отчёт"
             >
-              Скачать отчёт
+              <span className="max-w-full truncate sm:hidden">Отчёт</span>
+              <span className="hidden sm:inline">Скачать отчёт</span>
             </DownloadButton>
           )}
 
@@ -92,9 +84,11 @@ export function OrderStatusPanel(props: OrderStatusPanelProps) {
               nativeButton={false}
               variant="outline"
               className={ORDER_ACTION_BUTTON_CLASS_NAME}
-              Icon={ArrowRightIcon}
+              Icon={SquarePenIcon}
+              tooltip="Редактировать заказ"
             >
-              Редактировать
+              <span className="max-w-full truncate sm:hidden">Изменить</span>
+              <span className="hidden sm:inline">Редактировать</span>
             </Button>
           )}
 
@@ -103,9 +97,11 @@ export function OrderStatusPanel(props: OrderStatusPanelProps) {
             variant="destructive"
             className={ORDER_ACTION_BUTTON_CLASS_NAME}
             Icon={DeleteIcon}
+            tooltip="Удалить заказ"
             onClick={onDelete}
           >
-            Удалить заказ
+            <span className="max-w-full truncate sm:hidden">Удалить</span>
+            <span className="hidden sm:inline">Удалить заказ</span>
           </Button>
         </div>
       </OrderStatusPanelCard>

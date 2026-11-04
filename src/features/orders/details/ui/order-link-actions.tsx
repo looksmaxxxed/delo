@@ -29,9 +29,11 @@ export function OrderLinkActions(props: OrderLinkActionsProps) {
       className={className}
       Icon={CopyIcon}
       isLoading={isCopying}
+      tooltip="Скопировать ссылку"
       onClick={executeCopy}
     >
-      Скопировать ссылку
+      <span className="max-w-full truncate sm:hidden">Ссылка</span>
+      <span className="hidden sm:inline">Скопировать ссылку</span>
     </Button>
   );
 }

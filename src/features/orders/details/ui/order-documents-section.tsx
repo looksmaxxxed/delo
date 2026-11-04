@@ -45,14 +45,14 @@ export function OrderDocumentsSection(props: OrderDocumentsSectionProps) {
         onChange={handleFileChange}
       />
 
-      <div className="mt-3 flex items-stretch gap-4 overflow-x-auto pb-2">
+      <div className="mt-3 flex items-start gap-4 overflow-x-auto pb-2">
         <Button
           type="button"
           variant="outline"
           Icon={UploadIcon}
           isLoading={isUploading}
           onClick={handleSelectDocument}
-          className="border-primary text-primary bg-surface/60 h-18.75 w-50 shrink-0 flex-col gap-1 border-dashed backdrop-blur-md"
+          className="border-primary text-primary bg-surface/60 h-10 shrink-0 gap-1.5 border-dashed px-3 text-sm backdrop-blur-md xl:h-11 xl:gap-2 xl:px-4"
         >
           Загрузить файл
         </Button>

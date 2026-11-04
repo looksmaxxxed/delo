@@ -70,7 +70,7 @@ export default function EditOrderLoading() {
         </LoadingCard>
 
         <div className="flex justify-end pt-1">
-          <Skeleton className="h-10 w-48 rounded-lg" />
+          <Skeleton className="h-10 w-48 rounded-lg xl:h-11" />
         </div>
       </div>
     </AnimateIn>

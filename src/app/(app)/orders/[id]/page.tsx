@@ -7,6 +7,7 @@ import { OrderInformation } from '@/features/orders/details/ui/order-information
 import { OrderWorkItems } from '@/features/orders/details/ui/order-work-items';
 import { PaymentsSection } from '@/features/orders/details/ui/payments-section';
 import { ActivityLog } from '@/features/orders/details/ui/activity-log';
+import { OrderStatusBadge } from '@/features/orders/common/ui/order-status-badge';
 import { getOrder } from '@/actions/orders';
 import { env } from '@/shared/config/env';
 import { RETURN_TO } from '@/shared/constants/navigation';
@@ -31,6 +32,7 @@ export default async function OrderPage(props: OrderPageProps) {
       <PageHeader
         title={order.title}
         description={`Заказ · ${order.clientName}`}
+        meta={<OrderStatusBadge status={order.status} size="sm" />}
         showIcon={false}
         backLink={{ href: backLink, label: 'заказам' }}
       />

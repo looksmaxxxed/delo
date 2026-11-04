@@ -15,7 +15,7 @@ export function OrderWorkItems(props: OrderWorkItemsProps) {
     <SectionCard
       title="Состав работ"
       Icon={List}
-      className="flex h-80 min-h-0 flex-col overflow-hidden p-6"
+      className="flex flex-col p-4 sm:p-6 xl:h-80 xl:min-h-0 xl:overflow-hidden"
     >
       <div className="shrink-0 pr-2">
         <table className="w-full table-fixed">
@@ -31,7 +31,7 @@ export function OrderWorkItems(props: OrderWorkItemsProps) {
           </thead>
         </table>
       </div>
-      <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+      <div className="xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-2">
         <table className="w-full table-fixed">
           <colgroup>
             <col />

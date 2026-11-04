@@ -4,6 +4,7 @@ import { auth } from '@/config/auth';
 import { db } from '@/config/db';
 import { EmailVerificationProvider } from '@/shared/components/providers/email-verification/email-verification.provider';
 import { AppSidebarServer } from '@/shared/components/layout/sidebar/sidebar-server';
+import { BottomNavigation } from '@/shared/components/layout/bottom-navigation/bottom-navigation';
 import { TopBar } from '@/shared/components/layout/top-bar';
 import { INVALID_SESSION_ROUTE, LOGIN_ROUTE } from '@/constants/routes';
 import type { ReactNode } from 'react';
@@ -25,16 +26,19 @@ export default async function AppLayout(props: { children: ReactNode }) {
   if (!user) redirect(INVALID_SESSION_ROUTE);
 
   return (
-    <div className="flex min-h-screen flex-1 overflow-hidden p-4">
+    <div className="flex h-dvh min-h-0 flex-none overflow-hidden p-3 sm:p-4">
       <AppSidebarServer />
-      <div className="flex min-w-0 flex-1 flex-col gap-4 pl-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-3 xl:gap-4 xl:pl-4">
         <TopBar userName={user.name} userImage={user.image} />
         <NuqsAdapter>
           <EmailVerificationProvider emailVerified={!!user.emailVerified}>
-            <main className="flex flex-1 flex-col overflow-y-auto">{children}</main>
+            <main className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain pb-[calc(5.75rem+env(safe-area-inset-bottom))] xl:pb-0">
+              {children}
+            </main>
           </EmailVerificationProvider>
         </NuqsAdapter>
       </div>
+      <BottomNavigation />
     </div>
   );
 }

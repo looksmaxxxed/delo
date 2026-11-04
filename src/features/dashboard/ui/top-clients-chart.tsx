@@ -34,7 +34,7 @@ export function TopClientsChart(props: TopClientsChartProps) {
       {data.length === 0 ? (
         <ChartEmptyState />
       ) : (
-        <ChartContainer className="aspect-auto h-72 w-full">
+        <ChartContainer className="aspect-auto h-64 w-full sm:h-72">
           <BarChart
             data={data}
             layout="vertical"
@@ -56,7 +56,7 @@ export function TopClientsChart(props: TopClientsChartProps) {
               tickLine={false}
               tickMargin={8}
               tickFormatter={formatClientAxisLabel}
-              width={108}
+              width={88}
             />
             <Tooltip
               cursor={{ fill: 'var(--muted)', fillOpacity: 0.5 }}

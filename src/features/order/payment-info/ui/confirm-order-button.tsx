@@ -9,7 +9,12 @@ export function ConfirmOrderButton(props: ConfirmOrderButtonProps) {
   const { isLoading, onConfirm } = props;
 
   return (
-    <Button className="w-full" Icon={CircleCheckIcon} isLoading={isLoading} onClick={onConfirm}>
+    <Button
+      className="h-10 w-full xl:h-11"
+      Icon={CircleCheckIcon}
+      isLoading={isLoading}
+      onClick={onConfirm}
+    >
       Подтвердить условия
     </Button>
   );

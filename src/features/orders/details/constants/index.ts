@@ -45,7 +45,7 @@ export const ORDER_STATUS_ACTION_LABELS: Record<OrderStatus, string> = {
 };
 
 export const ORDER_ACTION_BUTTON_CLASS_NAME =
-  '[&_svg]:size-4! rounded-sm px-4 text-sm font-semibold';
+  '[&_svg]:size-4! h-10 w-full min-w-0 gap-1.5 rounded-lg px-2 text-xs font-semibold sm:w-auto sm:gap-2 sm:px-3 sm:text-sm xl:h-11 xl:px-4';
 
 export const PAYMENT_FORM_DEFAULT_VALUES: PaymentInput = {
   amount: '',

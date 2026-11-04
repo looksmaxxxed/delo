@@ -34,6 +34,7 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
         Icon={PlusIcon}
         tooltip="Добавить оплату"
         onClick={onOpen}
+        className="size-10 xl:size-8"
       />
 
       <AppDialog
@@ -49,7 +50,12 @@ export function PaymentFormDialog(props: PaymentFormDialogProps) {
           <FormDateInput control={control} name="paidAt" label="Дата оплаты" />
           <FormTextarea control={control} name="note" label="Заметка (необязательно)" rows={2} />
           <div className="flex justify-end">
-            <Button type="submit" isLoading={isLoading} Icon={CircleDollarSignIcon}>
+            <Button
+              type="submit"
+              isLoading={isLoading}
+              Icon={CircleDollarSignIcon}
+              className="h-10 xl:h-11"
+            >
               Сохранить
             </Button>
           </div>

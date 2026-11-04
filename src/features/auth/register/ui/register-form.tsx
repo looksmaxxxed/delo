@@ -54,7 +54,7 @@ export function RegisterFormView(props: RegisterFormViewProps) {
 
       <Button
         type="submit"
-        className="h-13 w-full rounded-lg text-base font-semibold"
+        className="xl:h-13 h-11 w-full rounded-lg text-sm font-semibold xl:text-base"
         isLoading={isLoading}
         Icon={ArrowRightIcon}
       >

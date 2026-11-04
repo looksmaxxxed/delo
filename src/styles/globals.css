@@ -200,6 +200,12 @@
     --border-radius: var(--radius);
   }
 
+  @media (min-width: 601px) and (max-width: 1279px) {
+    .app-shell-toaster[data-sonner-toaster][data-y-position='bottom'] {
+      --offset-bottom: calc(5.75rem + env(safe-area-inset-bottom)) !important;
+    }
+  }
+
   .glass {
     @apply bg-accent/15 backdrop-blur-xl backdrop-saturate-150;
 

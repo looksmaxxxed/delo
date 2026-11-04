@@ -11,7 +11,7 @@ export function ProfileForm(props: ProfileFormProps) {
   const { profile, verificationStatus } = props;
 
   return (
-    <div className="grid flex-1 items-start gap-6 lg:grid-cols-[minmax(0,1.75fr)_minmax(320px,0.95fr)]">
+    <div className="mx-auto grid w-full max-w-3xl flex-1 items-start gap-4 sm:gap-6 xl:max-w-none xl:grid-cols-[minmax(0,1.75fr)_minmax(320px,0.95fr)]">
       <ConfirmationProvider>
         <ProfileEditor profile={profile} />
       </ConfirmationProvider>

@@ -167,7 +167,6 @@ export function OrderDetailsFeature(props: OrderDetailsFeatureProps) {
         {...slots}
         statusPanel={
           <OrderStatusPanel
-            currentStatus={currentStatus}
             publicOrderUrl={publicOrderUrl}
             latestReadyReportId={latestReadyReportId}
             canEditOrder={canEditOrder}

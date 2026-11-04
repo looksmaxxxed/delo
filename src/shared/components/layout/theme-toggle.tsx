@@ -22,7 +22,7 @@ export function ThemeToggle() {
       aria-busy={isSwitching}
       disabled={isSwitching}
       onClick={toggleTheme}
-      className="border-primary bg-surface text-foreground dark:border-primary rounded-lg border disabled:opacity-100 motion-reduce:transform-none"
+      className="border-primary bg-surface text-foreground dark:border-primary size-10 rounded-lg border disabled:opacity-100 motion-reduce:transform-none xl:size-11"
     />
   );
 }

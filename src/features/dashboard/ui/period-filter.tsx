@@ -41,12 +41,12 @@ export function PeriodFilter(props: PeriodFilterProps) {
   }
 
   return (
-    <fieldset className="min-w-0">
+    <fieldset className="w-full min-w-0 md:w-auto">
       <legend className="sr-only">Период аналитики</legend>
       <MotionConfig reducedMotion="user">
         <LayoutGroup id="dashboard-period-filter">
           <div
-            className="border-border bg-secondary/70 surface-shadow flex max-w-full gap-1 overflow-x-auto rounded-xl border p-1 backdrop-blur-xl"
+            className="border-border bg-secondary/70 surface-shadow flex w-full max-w-full gap-1 overflow-x-auto rounded-xl border p-1 backdrop-blur-xl"
             onPointerLeave={handlePreviewEnd}
           >
             {DASHBOARD_PERIOD_OPTIONS.map((option) => {
@@ -80,7 +80,7 @@ export function PeriodFilter(props: PeriodFilterProps) {
                   )}
                   <span
                     className={cn(
-                      'peer-focus-visible:ring-ring relative z-10 inline-flex h-9 items-center justify-center rounded-lg px-3 text-xs font-semibold transition-colors duration-200 peer-focus-visible:ring-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-60 motion-reduce:transition-none',
+                      'peer-focus-visible:ring-ring relative z-10 inline-flex h-10 items-center justify-center rounded-lg px-2.5 text-xs font-semibold transition-colors duration-200 peer-focus-visible:ring-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-60 motion-reduce:transition-none xl:h-11 xl:px-3',
                       isHighlighted
                         ? 'text-primary-foreground'
                         : 'text-muted-foreground hover:text-foreground'

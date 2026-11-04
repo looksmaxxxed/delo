@@ -28,10 +28,10 @@ export function LandingFaq() {
       whileInView="visible"
       viewport={LANDING_REVEAL_VIEWPORT}
       variants={LANDING_REVEAL_GROUP}
-      className="mx-auto max-w-[800px] px-5 py-12 sm:px-8 sm:py-16"
+      className="mx-auto max-w-[800px] px-5 py-6 sm:px-8 sm:py-8 lg:py-10"
     >
       <motion.div variants={LANDING_REVEAL_VARIANTS.default} className="landing-reveal">
-        <h2 className="landing-heading mb-8 text-center">{LANDING_CONTENT.faq.title}</h2>
+        <h2 className="landing-heading mb-6 text-center sm:mb-8">{LANDING_CONTENT.faq.title}</h2>
       </motion.div>
       <motion.div
         variants={LANDING_REVEAL_VARIANTS.default}

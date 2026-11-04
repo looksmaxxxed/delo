@@ -8,7 +8,9 @@ import { AppDialog } from '@/shared/components/ui/overlay/dialog';
 import type { ClientListItem } from '@/types/clients';
 import { AnimateIn } from '@/shared/components/ui/feedback/animate-in';
 import { FilterCard } from '@/shared/components/ui/data/filter-card';
+import { ResponsiveCardList } from '@/shared/components/ui/data/responsive-card-list';
 import { columns } from '../constants';
+import { ClientCard } from './client-card';
 
 type ClientsListViewProps = {
   items: ClientListItem[];
@@ -52,6 +54,16 @@ export function ClientsListView(props: ClientsListViewProps) {
     onSearchChange(e.target.value);
   }
 
+  function getClientKey(client: ClientListItem) {
+    return client.id;
+  }
+
+  function renderClient(client: ClientListItem) {
+    return <ClientCard client={client} />;
+  }
+
+  const loadMore = hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined;
+
   return (
     <AnimateIn className="flex flex-1 flex-col space-y-4">
       <div className="flex justify-end">
@@ -64,13 +76,24 @@ export function ClientsListView(props: ClientsListViewProps) {
         />
       </div>
 
+      <ResponsiveCardList
+        items={items}
+        emptyMessage={searchFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
+        isLoading={isRefreshing}
+        isLoadingMore={isLoadingMore}
+        getItemKey={getClientKey}
+        renderItem={renderClient}
+        onEndReached={loadMore}
+      />
+
       <DataTable
         table={table}
         emptyMessage={searchFilter ? 'Ничего не найдено' : 'Клиентов пока нет'}
         isLoading={isRefreshing}
         onRowClick={onSelectClient}
-        onEndReached={hasMore && !isRefreshing && !isLoadingMore ? onLoadMore : undefined}
+        onEndReached={loadMore}
         isLoadingMore={isLoadingMore}
+        className="hidden xl:flex"
       />
 
       <AppDialog
@@ -81,6 +104,7 @@ export function ClientsListView(props: ClientsListViewProps) {
         Icon={UserRoundPlus}
         size="lg"
         variant="solid"
+        contentLayout="form"
       >
         {createForm}
       </AppDialog>

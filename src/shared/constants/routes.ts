@@ -20,11 +20,12 @@ export const PUBLIC_ROUTES = [
   '/api/auth',
 ] as const;
 
-export const PROTECTED_ROUTES = [
+export const APP_ROUTES = [
   DASHBOARD_ROUTE,
   '/clients',
   '/orders',
   PROFILE_ROUTE,
   '/reports',
-  '/api/documents',
 ] as const;
+
+export const PROTECTED_ROUTES = [...APP_ROUTES, '/api/documents'] as const;

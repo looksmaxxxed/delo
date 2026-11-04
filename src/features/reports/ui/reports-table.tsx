@@ -43,6 +43,7 @@ export function ReportsTable(props: ReportsTableProps) {
       onEndReached={onEndReached}
       isLoading={isLoading}
       isLoadingMore={isLoadingMore}
+      className="hidden xl:flex"
     />
   );
 }

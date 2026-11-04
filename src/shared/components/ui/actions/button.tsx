@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Check, LoaderCircle } from 'lucide-react';
@@ -28,7 +28,7 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-9 gap-2 px-5 text-base has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-5",
+          "h-9 gap-1.5 px-3 text-sm xl:gap-2 xl:px-5 xl:text-base has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3 [&_svg:not([class*='size-'])]:size-4 xl:[&_svg:not([class*='size-'])]:size-5",
         xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3',
@@ -53,6 +53,7 @@ type ButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
     isLoading?: boolean;
     isSuccess?: boolean;
+    isIconActive?: boolean;
     Icon?: AnimatedIconComponent;
     tooltip?: string;
     mode?: ButtonMode;
@@ -66,6 +67,7 @@ export function Button(props: ButtonProps) {
     size,
     isLoading,
     isSuccess,
+    isIconActive,
     Icon,
     children,
     disabled,
@@ -84,12 +86,22 @@ export function Button(props: ButtonProps) {
   const effectiveSize = mode === 'icon' || isCopyMode ? 'icon' : size;
   const showSuccess = !!isSuccess || (isCopyMode && copied);
 
+  useEffect(() => {
+    if (isIconActive === undefined) return;
+
+    if (isIconActive) {
+      startAnimatedIcon(iconRef, !!isLoading);
+    } else {
+      stopAnimatedIcon(iconRef, !!isLoading);
+    }
+  }, [isIconActive, isLoading]);
+
   function handleMouseEnter() {
     startAnimatedIcon(iconRef, !!isLoading);
   }
 
   function handleMouseLeave() {
-    stopAnimatedIcon(iconRef, !!isLoading);
+    stopAnimatedIcon(iconRef, !!isLoading || !!isIconActive);
   }
 
   function handleCopyClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -119,7 +131,7 @@ export function Button(props: ButtonProps) {
           {showSuccess ? (
             <motion.span
               key="check"
-              className="inline-flex"
+              className="inline-flex opacity-100"
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.7 }}
@@ -130,7 +142,7 @@ export function Button(props: ButtonProps) {
           ) : IconComponent ? (
             <motion.span
               key="icon"
-              className="inline-flex"
+              className="inline-flex opacity-100"
               initial={{ opacity: 0, scale: 0.7 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.7 }}

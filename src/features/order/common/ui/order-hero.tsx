@@ -25,7 +25,7 @@ export function OrderHero(props: OrderHeroProps) {
           {ORDER_STATUS_LABELS[order.status]}
         </Badge>
       }
-      className="p-6 sm:p-8"
+      className="p-4 sm:p-8"
     >
       {order.description && (
         <p className="text-muted-foreground max-w-3xl text-sm leading-6 sm:text-base">
