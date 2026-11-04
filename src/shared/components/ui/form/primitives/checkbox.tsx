@@ -17,11 +17,17 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(p
         containerClassName
       )}
     >
-      <input ref={ref} type="checkbox" className="peer sr-only" disabled={disabled} {...rest} />
+      <input
+        ref={ref}
+        type="checkbox"
+        className="peer absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+        disabled={disabled}
+        {...rest}
+      />
       <span
         aria-hidden="true"
         className={cn(
-          'border-border bg-secondary peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50 flex size-5 cursor-pointer items-center justify-center rounded border text-transparent transition-colors peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+          'border-border bg-secondary peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50 pointer-events-none flex size-5 items-center justify-center rounded border text-transparent transition-colors peer-disabled:opacity-50',
           className
         )}
       >
