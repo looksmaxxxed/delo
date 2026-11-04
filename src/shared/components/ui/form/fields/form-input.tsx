@@ -70,7 +70,7 @@ export function FormInput<T extends FieldValues>(props: FormInputProps<T>) {
                     variant="ghost"
                     tooltip={passwordToggleTooltip}
                     onClick={togglePassword}
-                    className="text-muted-foreground hover:text-foreground absolute right-2 top-1/2 -translate-y-1/2"
+                    className="text-muted-foreground hover:text-foreground absolute right-2 top-1/2 -translate-y-1/2 active:-translate-y-1/2"
                   />
                 )}
                 <FormLabel
