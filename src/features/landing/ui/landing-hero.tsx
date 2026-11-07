@@ -113,16 +113,23 @@ export function LandingHero() {
           variants={LANDING_REVEAL_VARIANTS.default}
           className="landing-reveal mt-6 flex flex-col items-center gap-3 sm:mt-8"
         >
-          <div className="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row">
-            <LandingCta href="/register">{LANDING_CONTENT.hero.cta}</LandingCta>
+          <div className="grid w-full grid-cols-2 items-stretch gap-2 sm:flex sm:w-auto sm:justify-center sm:gap-3">
+            <LandingCta
+              href="/register"
+              className="min-w-0 gap-1.5 px-2 text-xs min-[360px]:text-sm sm:gap-3 sm:px-6"
+            >
+              <span className="sm:hidden">{LANDING_CONTENT.hero.mobileCta}</span>
+              <span className="hidden sm:inline">{LANDING_CONTENT.hero.cta}</span>
+            </LandingCta>
             <Button
               render={<Link href={DEMO_ORDER_ROUTE} />}
               nativeButton={false}
               variant="outline"
               Icon={EyeIcon}
-              className="h-12 gap-3 px-6 text-sm"
+              className="h-12 min-w-0 gap-1.5 px-2 text-xs min-[360px]:text-sm sm:gap-3 sm:px-6"
             >
-              {LANDING_CONTENT.hero.demoCta}
+              <span className="sm:hidden">{LANDING_CONTENT.hero.mobileDemoCta}</span>
+              <span className="hidden sm:inline">{LANDING_CONTENT.hero.demoCta}</span>
             </Button>
           </div>
           <p className="text-sm font-medium">{LANDING_CONTENT.pricingNotice}</p>

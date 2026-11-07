@@ -36,8 +36,8 @@ export function CookieConsent(props: CookieConsentProps) {
     getServerAnalyticsConsent
   );
   const { isOpen, closeSettings } = useCookieSettings();
-  const showBanner = isClient && (consent === null || isOpen);
-  const analyticsAllowed = analyticsEnabled && consent === 'accepted' && canSendAnalytics();
+  const showBanner = isClient && isOpen;
+  const analyticsAllowed = analyticsEnabled && consent !== 'rejected' && canSendAnalytics();
   const trackAnalytics = analyticsAllowed && isAnalyticsPath(pathname);
   const trackMetrica = analyticsAllowed && getMetricaPath(pathname) !== null;
 
@@ -71,7 +71,7 @@ export function CookieConsent(props: CookieConsentProps) {
               Подробнее о cookies
             </Link>
           </div>
-          <div className="border-border bg-muted/25 grid grid-cols-1 gap-3 border-t p-4 sm:grid-cols-2 sm:px-6">
+          <div className="border-border bg-muted/25 grid grid-cols-2 gap-3 border-t p-4 sm:px-6">
             <Button
               type="button"
               variant="outline"

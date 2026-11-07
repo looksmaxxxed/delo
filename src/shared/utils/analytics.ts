@@ -14,7 +14,7 @@ export function isAnalyticsPath(pathname: string) {
 export function canSendAnalytics() {
   return (
     typeof window !== 'undefined' &&
-    getAnalyticsConsent() === 'accepted' &&
+    getAnalyticsConsent() !== 'rejected' &&
     window.location.origin === SEO_SITE_URL
   );
 }

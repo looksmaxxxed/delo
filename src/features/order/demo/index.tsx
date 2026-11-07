@@ -17,27 +17,24 @@ export function DemoOrder(props: DemoOrderProps) {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Button
-            render={<Link href={ROOT_ROUTE} />}
-            nativeButton={false}
-            variant="ghost"
-            Icon={ArrowLeftIcon}
-            className="h-11 px-2 text-sm"
-          >
-            На главную
-          </Button>
-          <Button
-            render={<Link href="/register" />}
-            nativeButton={false}
-            Icon={ArrowRightIcon}
-            className="h-11 px-3 text-sm"
-          >
-            Создать свой заказ
-          </Button>
-        </div>
-        <p className="text-muted-foreground text-sm">Пример заказа · Все данные вымышлены</p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Button
+          render={<Link href={ROOT_ROUTE} />}
+          nativeButton={false}
+          variant="ghost"
+          Icon={ArrowLeftIcon}
+          className="h-11 px-2 text-sm"
+        >
+          На главную
+        </Button>
+        <Button
+          render={<Link href="/register" />}
+          nativeButton={false}
+          Icon={ArrowRightIcon}
+          className="h-11 px-3 text-sm"
+        >
+          Создать свой заказ
+        </Button>
       </div>
       <PublicOrderView
         {...slots}
