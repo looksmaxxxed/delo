@@ -43,16 +43,18 @@ export function LandingDashboard() {
 
         <motion.ul
           variants={LANDING_REVEAL_GROUP}
-          className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 lg:grid-cols-4"
         >
           {LANDING_DASHBOARD.points.map((point) => (
             <motion.li
               key={point.title}
               variants={LANDING_REVEAL_VARIANTS.default}
-              className="landing-reveal border-border bg-surface/70 rounded-xl border p-5"
+              className="landing-reveal border-border bg-surface/70 rounded-xl border p-4 sm:p-5"
             >
-              <p className="font-semibold">{point.title}</p>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">{point.body}</p>
+              <p className="text-sm font-semibold sm:text-base">{point.title}</p>
+              <p className="text-muted-foreground mt-2 text-xs leading-5 sm:text-sm sm:leading-relaxed">
+                {point.body}
+              </p>
             </motion.li>
           ))}
         </motion.ul>
