@@ -13,11 +13,11 @@ export function AuthFrame(props: AuthFrameProps) {
   const { children } = props;
 
   return (
-    <main className="bg-surface text-foreground relative isolate min-h-dvh overflow-x-hidden">
+    <main className="bg-surface text-foreground min-h-app-viewport relative isolate overflow-x-hidden">
       <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
         <AuthDotMatrix />
       </div>
-      <section className="xl:px-18 relative z-10 flex min-h-dvh flex-col justify-center px-4 py-5 sm:px-10 sm:py-10 lg:w-[47%] lg:px-14 lg:py-12">
+      <section className="xl:px-18 min-h-app-viewport relative z-10 flex flex-col justify-center px-4 py-5 sm:px-10 sm:py-10 lg:w-[47%] lg:px-14 lg:py-12">
         <div className="glass border-glass border-primary/25 bg-linear-to-br from-primary/20 via-accent/15 to-card/75 mx-auto flex w-full max-w-[500px] flex-col rounded-3xl border px-5 py-6 sm:px-9 sm:py-9 lg:px-8 xl:px-10">
           <div className="flex items-center justify-between gap-4">
             <Link

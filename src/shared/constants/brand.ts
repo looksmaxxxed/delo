@@ -1,5 +1,10 @@
 import type { Metadata } from 'next';
 
+export const BRAND_THEME_COLORS = {
+  light: '#ffffff',
+  dark: '#0d1117',
+} as const;
+
 export const BRAND_ICONS: Metadata['icons'] = {
   icon: [
     {

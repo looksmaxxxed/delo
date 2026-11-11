@@ -22,7 +22,7 @@ export function LandingHeader() {
   }
 
   return (
-    <header className="bg-background/95 relative sticky top-0 z-30 backdrop-blur-lg">
+    <header className="bg-background/95 relative sticky top-[var(--safe-area-top)] z-30 backdrop-blur-lg">
       <div className="h-18 relative mx-auto flex w-full max-w-[1520px] items-center justify-between gap-3 px-5 sm:px-8 lg:h-20 lg:px-12">
         <Link
           href="/"

@@ -12,7 +12,7 @@ export function BottomNavigation() {
     <LayoutGroup id="app-bottom-navigation">
       <nav
         aria-label="Основная навигация"
-        className="surface-shadow border-sidebar-border bg-surface/95 fixed inset-x-3 bottom-[max(0.75rem,env(safe-area-inset-bottom))] z-30 grid grid-cols-5 gap-1 rounded-2xl border p-1.5 backdrop-blur-xl xl:hidden"
+        className="surface-shadow border-sidebar-border bg-surface/95 fixed bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-[calc(0.75rem+var(--safe-area-left))] right-[calc(0.75rem+var(--safe-area-right))] z-30 grid grid-cols-5 gap-1 rounded-2xl border p-1.5 backdrop-blur-xl xl:hidden"
       >
         {Object.values(NAV_ITEMS)
           .filter((item) => !item.isDisabled)

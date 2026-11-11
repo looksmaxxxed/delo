@@ -10,7 +10,7 @@ import { LandingStructuredData } from './ui/landing-structured-data';
 
 export function LandingContent() {
   return (
-    <div className="landing-page bg-background text-foreground min-h-screen font-sans">
+    <div className="landing-page bg-background text-foreground min-h-app-viewport font-sans">
       <LandingStructuredData />
       <a
         href="#landing-main"

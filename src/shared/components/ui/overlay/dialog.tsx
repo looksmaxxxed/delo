@@ -45,13 +45,13 @@ export function AppDialog(props: AppDialogProps) {
         />
         <Dialog.Viewport
           className={cn(
-            'fixed inset-0 flex items-end justify-center p-0 sm:items-center sm:p-4',
+            'safe-area-overlay fixed inset-0 flex items-end justify-center sm:items-center',
             layerClass
           )}
         >
           <Dialog.Popup
             className={cn(
-              'data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 sm:data-closed:zoom-out-95 sm:data-open:zoom-in-95 flex max-h-[calc(100svh-0.5rem)] w-full flex-col overflow-hidden rounded-b-none rounded-t-2xl border shadow-lg duration-200 sm:max-h-[calc(100svh-2rem)] sm:rounded-xl',
+              'data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 sm:data-closed:zoom-out-95 sm:data-open:zoom-in-95 flex max-h-[calc(var(--app-viewport-height)-0.5rem)] w-full flex-col overflow-hidden rounded-b-none rounded-t-2xl border shadow-lg duration-200 sm:max-h-[calc(var(--app-viewport-height)-2rem)] sm:rounded-xl',
               variant === 'solid' ? 'border-border bg-surface' : 'glass',
               size === 'lg' ? 'max-w-4xl' : 'max-w-lg'
             )}

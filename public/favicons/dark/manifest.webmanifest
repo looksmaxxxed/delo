@@ -1,8 +1,11 @@
 {
+  "id": "/",
   "name": "Delo",
   "short_name": "Delo",
+  "description": "Клиенты, заказы, оплаты и документы для фрилансеров и самозанятых.",
   "lang": "ru",
-  "start_url": "/",
+  "start_url": "/dashboard",
+  "scope": "/",
   "display": "standalone",
   "icons": [
     {
@@ -14,6 +17,12 @@
       "src": "/favicons/dark/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/favicons/dark/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "theme_color": "#0d1117",

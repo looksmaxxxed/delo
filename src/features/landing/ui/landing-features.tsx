@@ -18,10 +18,11 @@ export function LandingFeatures() {
         whileInView="visible"
         viewport={LANDING_REVEAL_VIEWPORT}
         variants={LANDING_REVEAL_GROUP}
+        className="sr-only sm:not-sr-only"
       >
         <motion.h2
           variants={LANDING_REVEAL_VARIANTS.headline}
-          className="landing-reveal landing-heading sr-only mx-auto max-w-3xl whitespace-pre-line text-center sm:not-sr-only"
+          className="landing-reveal landing-heading mx-auto max-w-3xl whitespace-pre-line text-center"
         >
           {LANDING_CONTENT.features.title}
         </motion.h2>

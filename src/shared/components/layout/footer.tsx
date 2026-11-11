@@ -10,7 +10,7 @@ import { CookieSettingsButton } from '@/shared/components/layout/cookie-settings
 
 export function Footer() {
   return (
-    <footer className="border-border bg-background mt-auto border-t pb-10 pt-16">
+    <footer className="border-border bg-background mt-auto border-t pb-[calc(2.5rem+var(--safe-area-bottom))] pt-16">
       <div className="mx-auto w-full max-w-7xl px-6">
         <div className="flex flex-col justify-between gap-12 md:flex-row">
           <div className="max-w-80">
