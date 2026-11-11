@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist_Mono, Inter, Outfit } from 'next/font/google';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/shared/components/providers/theme/theme.provider';
@@ -14,7 +14,7 @@ import {
   SEO_PRIVATE_ROBOTS,
 } from '@/shared/constants/seo';
 import { isProductionDeployment } from '@/shared/utils/deployment';
-import { BRAND_ICONS } from '@/shared/constants/brand';
+import { BRAND_ICONS, BRAND_THEME_COLORS } from '@/shared/constants/brand';
 
 const inter = Inter({
   variable: '--font-sans',
@@ -39,12 +39,27 @@ export const metadata: Metadata = {
   robots: SEO_PRIVATE_ROBOTS,
   icons: BRAND_ICONS,
   manifest: '/favicons/light/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: SEO_SITE_NAME,
+    statusBarStyle: 'default',
+  },
   ...(isProductionDeployment() && {
     verification: {
       google: env.GOOGLE_SITE_VERIFICATION,
       yandex: env.YANDEX_SITE_VERIFICATION,
     },
   }),
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: BRAND_THEME_COLORS.light },
+    { media: '(prefers-color-scheme: dark)', color: BRAND_THEME_COLORS.dark },
+  ],
 };
 
 export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
@@ -59,7 +74,7 @@ export default function RootLayout(props: Readonly<{ children: ReactNode }>) {
     >
       <body className="bg-background text-foreground flex min-h-full flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="dashboard-background flex min-h-dvh flex-1 flex-col">
+          <div className="dashboard-background min-h-app-viewport flex flex-1 flex-col">
             {children}
             <Toaster />
             <CookieSettingsProvider analyticsEnabled={isProductionDeployment()}>

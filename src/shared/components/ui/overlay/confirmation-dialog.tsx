@@ -38,8 +38,8 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Backdrop className="data-closed:animate-out data-closed:fade-out-0 data-open:animate-in data-open:fade-in-0 fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm duration-200" />
-        <Dialog.Viewport className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-4">
-          <Dialog.Popup className="border-border bg-surface data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 max-w-110 sm:data-closed:zoom-out-95 sm:data-open:zoom-in-95 flex max-h-[calc(100svh-0.5rem)] w-full flex-col items-center gap-5 overflow-y-auto overscroll-contain rounded-b-none rounded-t-2xl border px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6 shadow-xl outline-none duration-200 sm:gap-6 sm:rounded-2xl sm:p-8">
+        <Dialog.Viewport className="safe-area-overlay fixed inset-0 z-[60] flex items-end justify-center sm:items-center">
+          <Dialog.Popup className="border-border bg-surface data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom-4 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom-4 max-w-110 sm:data-closed:zoom-out-95 sm:data-open:zoom-in-95 flex max-h-[calc(var(--app-viewport-height)-0.5rem)] w-full flex-col items-center gap-5 overflow-y-auto overscroll-contain rounded-b-none rounded-t-2xl border px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6 shadow-xl outline-none duration-200 sm:gap-6 sm:rounded-2xl sm:p-8">
             {Icon && (
               <div
                 className={cn(

@@ -26,7 +26,7 @@ export default async function AppLayout(props: { children: ReactNode }) {
   if (!user) redirect(INVALID_SESSION_ROUTE);
 
   return (
-    <div className="flex h-dvh min-h-0 flex-none overflow-hidden p-3 sm:p-4">
+    <div className="h-app-viewport flex min-h-0 flex-none overflow-hidden p-3 sm:p-4">
       <AppSidebarServer />
       <div className="flex min-w-0 flex-1 flex-col gap-3 xl:gap-4 xl:pl-4">
         <TopBar userName={user.name} userImage={user.image} />
